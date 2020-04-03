@@ -7,7 +7,8 @@ class PhotoUpload extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      file: null
+      file: null,
+      images: []
     }
   }
 
@@ -31,13 +32,35 @@ class PhotoUpload extends Component {
       .catch(console.error)
   }
 
+  handleGetImages (e) {
+    axios({
+      url: apiUrl + '/uploads',
+      method: 'GET'
+    })
+      .then(res => {
+        console.log(res.data.uploads)
+        const images = res.data.uploads
+        this.setState({ images: images })
+      })
+      .catch(console.error)
+  }
+
   render () {
+    const images = this.state.images.map((img, index) => {
+      return (
+        <li key={index}>
+          <img src={img.fileUrl}/>
+        </li>
+      )
+    })
     return (
       <div>
         <label>Select a file:</label>
         <input type="file" id="myfile" name="myfile" onChange={(e) =>
           this.handleFile(e)} />
         <button onClick={(e) => this.handleUpload(e)}>Upload</button>
+        <button onClick={(e) => this.handleGetImages(e)}>Get Images</button>
+        <ul>{images}</ul>
       </div>
     )
   }
