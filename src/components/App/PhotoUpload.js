@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 // import { withRouter } from 'react-router-dom'
 import apiUrl from '../../apiConfig'
 import axios from 'axios'
+import Image from 'react-bootstrap/Image'
 
 class PhotoUpload extends Component {
   constructor (props) {
@@ -49,7 +50,11 @@ class PhotoUpload extends Component {
     const images = this.state.images.map((img, index) => {
       return (
         <li key={index}>
-          <img src={img.fileUrl}/>
+          <div className='img_container'>
+            <Image src={img.fileUrl} thumbnail />
+          </div>
+          <div className='img_bar'>
+          </div>
         </li>
       )
     })
