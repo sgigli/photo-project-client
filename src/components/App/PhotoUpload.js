@@ -21,13 +21,11 @@ class PhotoUpload extends Component {
     const file = this.state.file
     const formdata = new FormData()
     formdata.append('file', file)
-    console.log(formdata.getAll('file'))
-    console.log(formdata['file'])
-    // formdata.append('name', 'Simon Gigli')
 
     axios({
       url: apiUrl + '/uploads',
-      method: 'patch'
+      method: 'POST',
+      data: formdata
     })
       .then(console.log)
       .catch(console.error)
