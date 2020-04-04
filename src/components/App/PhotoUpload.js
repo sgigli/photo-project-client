@@ -46,6 +46,16 @@ class PhotoUpload extends Component {
       .catch(console.error)
   }
 
+  handleDelete (e) {
+    const id = e.target.id
+    axios({
+      url: apiUrl + '/uploads/' + id,
+      method: 'DELETE'
+    })
+      .then(console.log)
+      .catch(console.error)
+  }
+
   render () {
     const images = this.state.images.map((img, index) => {
       return (
@@ -54,6 +64,13 @@ class PhotoUpload extends Component {
             <Image src={img.fileUrl} thumbnail />
           </div>
           <div className='img_bar'>
+            <button
+              className='btn-danger'
+              onClick={this.handleDelete}
+              id={img._id}
+            >
+              Delete
+            </button>
           </div>
         </li>
       )
