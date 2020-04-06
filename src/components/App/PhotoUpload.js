@@ -11,6 +11,7 @@ class PhotoUpload extends Component {
       file: null,
       images: []
     }
+    this.handleDelete = this.handleDelete.bind(this)
   }
 
   handleFile (e) {
@@ -29,8 +30,9 @@ class PhotoUpload extends Component {
       method: 'POST',
       data: formdata
     })
-      .then(console.log)
-      .catch(console.error)
+      .then(() => {
+        this.handleGetImages()
+      })
   }
 
   handleGetImages (e) {
@@ -52,16 +54,19 @@ class PhotoUpload extends Component {
       url: apiUrl + '/uploads/' + id,
       method: 'DELETE'
     })
-      .then(console.log)
-      .catch(console.error)
+      .then(() => {
+        this.handleGetImages()
+      })
   }
 
   render () {
     const images = this.state.images.map((img, index) => {
       return (
         <li key={index}>
-          <div className='img_container'>
-            <Image src={img.fileUrl} thumbnail />
+          <div className='image_background'>
+            <div className='img_container'>
+              <Image className='image' src={img.fileUrl} thumbnail />
+            </div>
           </div>
           <div className='img_bar'>
             <button
