@@ -1,5 +1,9 @@
 @import '~bootstrap/scss/bootstrap';
 
+main {
+  text-align: center;
+}
+
 ul {
   list-style-type: none;
 }
@@ -9,13 +13,16 @@ li {
 }
 
 img {
-  height: 100%;
-  width: 100%;
-  margin: 0;
+  max-height: 250px;
+  max-width: 300px;
+  // margin: 0 auto;
+  margin-left: auto;
+  margin-right: auto;
   position: absolute;
   top: 50%;
   -ms-transform: translateY(-50%);
   transform: translateY(-50%);
+  display: block;
 }
 
 // .image {
@@ -23,25 +30,35 @@ img {
 //   width: 300px;
 // }
 
-.image_background {
-  background-color: gray;
-  height: 250px;
-  width: 300px;
-  border: 3px solid green;
-}
+// .image_background {
+//   background-color: gray;
+//   height: 250px;
+//   width: 300px;
+//   border: 3px solid green;
+//   margin: 0 auto;
+//   position: relative;
+// }
 
 .img_container {
-  max-height: 250px;
-  max-width: 300px;
-  // background-color: gray;
+  height: 250px;
+  width: 300px;
+  background-color: gray;
   // border: 2px solid black;
   margin: 0 auto;
   position: relative;
-  // border: 3px solid green;
+  border: 3px solid green;
+  // text-align: center;
 }
 
 .img_bar {
   height: 50px;
   width: 300px;
   border: 3px solid black;
+}
+
+.hide_file_field {
+  input[type=file] {
+    color: transparent;
+    // opacity: 0;
+  }
 }

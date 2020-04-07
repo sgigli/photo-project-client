@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 import apiUrl from '../../apiConfig'
 import axios from 'axios'
 import Image from 'react-bootstrap/Image'
+// import Modal from 'react-modal'
 
 class PhotoUpload extends Component {
   constructor (props) {
@@ -32,6 +33,7 @@ class PhotoUpload extends Component {
     })
       .then(() => {
         this.handleGetImages()
+        document.getElementById('myfile').value = null
       })
   }
 
@@ -43,7 +45,7 @@ class PhotoUpload extends Component {
       .then(res => {
         console.log(res.data.uploads)
         const images = res.data.uploads
-        this.setState({ images: images })
+        this.setState({ file: null, images: images })
       })
       .catch(console.error)
   }
@@ -63,10 +65,8 @@ class PhotoUpload extends Component {
     const images = this.state.images.map((img, index) => {
       return (
         <li key={index}>
-          <div className='image_background'>
-            <div className='img_container'>
-              <Image className='image' src={img.fileUrl} thumbnail />
-            </div>
+          <div className='img_container'>
+            <Image className='image' src={img.fileUrl} thumbnail />
           </div>
           <div className='img_bar'>
             <button
@@ -81,17 +81,18 @@ class PhotoUpload extends Component {
       )
     })
     return (
-      <div>
-        <label>Select a file:</label>
-        <input type="file" id="myfile" name="myfile" onChange={(e) =>
-          this.handleFile(e)} />
-        <button onClick={(e) => this.handleUpload(e)}>Upload</button>
-        <button onClick={(e) => this.handleGetImages(e)}>Get Images</button>
+      <main>
+        <div className={this.state.file ? '' : 'hide_file_field' }>
+          <label>Select a file:</label>
+          <input type="file" id="myfile" name="myfile" onChange={(e) =>
+            this.handleFile(e)} />
+          <button onClick={(e) => this.handleUpload(e)}>Upload</button>
+          <button onClick={(e) => this.handleGetImages(e)}>Get Images</button>
+        </div>
         <ul>{images}</ul>
-      </div>
+      </main>
     )
   }
 }
 
-// export default withRouter(PhotoUpload)
 export default PhotoUpload
