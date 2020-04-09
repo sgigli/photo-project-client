@@ -3,9 +3,10 @@ import React, { Component } from 'react'
 import apiUrl from '../../apiConfig'
 import axios from 'axios'
 import Image from 'react-bootstrap/Image'
-import { Modal, Button } from 'react-bootstrap'
+// import { Modal, Button } from 'react-bootstrap'
 // import { Button } from 'react-bootstrap'
-// import Example from './Modal'
+import Example from './Modal'
+// const Modal = require('react-bootstrap-modal')
 
 // function RenderModal () {
 //   const [setShow] = React.useState(false)
@@ -39,12 +40,8 @@ class PhotoUpload extends Component {
     super(props)
     this.state = {
       file: null,
-      showModal: false,
       images: []
     }
-    this.handleDelete = this.handleDelete.bind(this)
-    this.handleShow = this.handleShow.bind(this)
-    this.handleClose = this.handleClose.bind(this)
   }
 
   handleFile (e) {
@@ -95,21 +92,19 @@ class PhotoUpload extends Component {
 
   // [show, setShow] = useState(false);
   //
-  handleClose () {
-    this.setState({ showModal: false })
-  }
-  handleShow () {
-    this.setState({ showModal: true })
-  }
+  // handleClose () {
+  //   this.setState({ showModal: false })
+  // }
+  // handleShow () {
+  //   this.setState({ showModal: true })
+  // }
 
   render () {
-    console.log('test')
-    console.log(this.state.showModal)
     const images = this.state.images.map((img, index) => {
       return (
         <li key={index}>
           <div className='img_container'>
-            <Image className='image' src={img.fileUrl} thumbnail />
+            <Image className='icon' src={img.fileUrl} thumbnail />
           </div>
           <div className='img_bar'>
             <button
@@ -119,13 +114,14 @@ class PhotoUpload extends Component {
             >
               Delete
             </button>
+            <Example image={img.fileUrl}/>
           </div>
         </li>
       )
     })
     return (
       <main>
-        <div className={this.state.file ? '' : 'hide_file_field' }>
+        <div className={this.state.file ? '' : 'hide_file_field'}>
           <label>Select a file:</label>
           <input type="file" id="myfile" name="myfile" onChange={(e) =>
             this.handleFile(e)} />
@@ -133,24 +129,6 @@ class PhotoUpload extends Component {
           <button onClick={(e) => this.handleGetImages(e)}>Get Images</button>
         </div>
         <ul>{images}</ul>
-        <Button variant="primary" onClick={this.handleShow}>
-          Launch demo modal 1
-        </Button>
-
-        <Modal show={this.state.showModal} onHide={this.handleClose}>
-          <Modal.Header closeButton>
-            <Modal.Title>Modal heading</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>Woohoo, you are reading this text in a modal!</Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={this.handleClose}>
-              Close
-            </Button>
-            <Button variant="primary" onClick={this.handleClose}>
-              Save Changes
-            </Button>
-          </Modal.Footer>
-        </Modal>
       </main>
     )
   }

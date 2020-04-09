@@ -1,13 +1,16 @@
 import React, { useState } from 'react'
 import { Modal, Button } from 'react-bootstrap'
+import Image from 'react-bootstrap/Image'
 // import { Button } from 'react-bootstrap-buttons'
 // import { render } from 'react-dom'
 
-function Example () {
+function Example (props) {
   const [show, setShow] = useState(false)
 
   const handleClose = () => setShow(false)
   const handleShow = () => setShow(true)
+
+  console.log(props.test)
 
   return (
     <div>
@@ -19,7 +22,10 @@ function Example () {
         <Modal.Header closeButton>
           <Modal.Title>Modal heading</Modal.Title>
         </Modal.Header>
-        <Modal.Body>Woohoo, you are reading this text in a modal!</Modal.Body>
+        <Modal.Body>
+          Woohoo, you are reading this text in a modal!
+          <Image src={props.image} class="img-responsive"/>
+        </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
             Close
