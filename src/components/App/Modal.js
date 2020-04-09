@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import Modal from 'react-bootstrap-modal'
-import { Button } from 'react-bootstrap-buttons'
+import { Modal, Button } from 'react-bootstrap'
+// import { Button } from 'react-bootstrap-buttons'
 // import { render } from 'react-dom'
 
 function Example () {

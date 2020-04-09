@@ -3,8 +3,8 @@ import React, { Component } from 'react'
 import apiUrl from '../../apiConfig'
 import axios from 'axios'
 import Image from 'react-bootstrap/Image'
-import Modal from 'react-bootstrap-modal'
-import { Button } from 'react-bootstrap-buttons'
+import { Modal, Button } from 'react-bootstrap'
+// import { Button } from 'react-bootstrap'
 // import Example from './Modal'
 
 // function RenderModal () {
@@ -137,7 +137,7 @@ class PhotoUpload extends Component {
           Launch demo modal 1
         </Button>
 
-        <Modal show={true} onHide={this.handleClose}>
+        <Modal show={this.state.showModal} onHide={this.handleClose}>
           <Modal.Header closeButton>
             <Modal.Title>Modal heading</Modal.Title>
           </Modal.Header>
