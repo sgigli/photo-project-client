@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
-import { Modal, Button } from 'react-bootstrap'
+import { Button } from 'react-bootstrap'
 import Image from 'react-bootstrap/Image'
+import Modal from 'react-bootstrap/Modal'
 // import { Button } from 'react-bootstrap-buttons'
 // import { render } from 'react-dom'
 
@@ -18,13 +19,13 @@ function Example (props) {
         Launch modal
       </Button>
 
-      <Modal show={show} onHide={handleClose}>
+      <Modal dialogClassName='modal-90w' show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Modal heading</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           Woohoo, you are reading this text in a modal!
-          <Image src={props.image} class="img-responsive"/>
+          <Image src={props.image} className="modal-image"/>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
