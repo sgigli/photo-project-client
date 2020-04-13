@@ -10,12 +10,15 @@ function Example (props) {
 
   const handleClose = () => setShow(false)
   const handleShow = () => setShow(true)
+  // const test = () => { console.log('test') }
+
+  // <Button variant="primary" onClick={handleShow}>
+  //   Launch modal
+  // </Button>
 
   return (
     <div>
-      <Button variant="primary" onClick={handleShow}>
-        Launch modal
-      </Button>
+      <Image className='icon' src={props.image} onClick={handleShow} thumbnail />
 
       <Modal dialogClassName='modal-90w' show={show} onHide={handleClose}>
         <Modal.Header closeButton>

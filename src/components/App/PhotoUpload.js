@@ -2,38 +2,11 @@ import React, { Component } from 'react'
 // import { withRouter } from 'react-router-dom'
 import apiUrl from '../../apiConfig'
 import axios from 'axios'
-import Image from 'react-bootstrap/Image'
+// import Image from 'react-bootstrap/Image'
 // import { Modal, Button } from 'react-bootstrap'
 // import { Button } from 'react-bootstrap'
 import Example from './Modal'
 // const Modal = require('react-bootstrap-modal')
-
-// function RenderModal () {
-//   const [setShow] = React.useState(false)
-//
-//   const handleClose = () => setShow(false)
-//   // const handleShow = () => setShow(true)
-//   // <Button variant="primary" onClick={handleShow}>
-//   //   Launch demo modal
-//   // </Button>
-//
-//   return (
-//     <Modal show={true} onHide={handleClose}>
-//       <Modal.Header closeButton>
-//         <Modal.Title>Modal heading</Modal.Title>
-//       </Modal.Header>
-//       <Modal.Body>Woohoo, you are reading this text in a modal!</Modal.Body>
-//       <Modal.Footer>
-//         <Button variant="secondary" onClick={handleClose}>
-//           Close
-//         </Button>
-//         <Button variant="primary" onClick={handleClose}>
-//           Save Changes
-//         </Button>
-//       </Modal.Footer>
-//     </Modal>
-//   )
-// }
 
 class PhotoUpload extends Component {
   constructor (props) {
@@ -90,11 +63,10 @@ class PhotoUpload extends Component {
       })
   }
 
-  // [show, setShow] = useState(false);
-  //
-  // handleClose () {
-  //   this.setState({ showModal: false })
-  // }
+  showModal () {
+
+  }
+
   // handleShow () {
   //   this.setState({ showModal: true })
   // }
@@ -103,8 +75,8 @@ class PhotoUpload extends Component {
     const images = this.state.images.map((img, index) => {
       return (
         <li key={index}>
-          <div className='img_container'>
-            <Image className='icon' src={img.fileUrl} thumbnail />
+          <div className='img_container' onClick={this.showModal}>
+            <Example image={img.fileUrl}/>
           </div>
           <div className='img_bar'>
             <button
@@ -114,7 +86,6 @@ class PhotoUpload extends Component {
             >
               Delete
             </button>
-            <Example image={img.fileUrl}/>
           </div>
         </li>
       )
