@@ -8,6 +8,8 @@ import SignUp from '../SignUp/SignUp'
 import SignIn from '../SignIn/SignIn'
 import SignOut from '../SignOut/SignOut'
 import ChangePassword from '../ChangePassword/ChangePassword'
+import PhotoUpload from './PhotoUpload'
+// import Example from './Modal'
 
 class App extends Component {
   constructor () {
@@ -55,6 +57,7 @@ class App extends Component {
             <ChangePassword msgAlert={this.msgAlert} user={user} />
           )} />
         </main>
+        <PhotoUpload/>
       </Fragment>
     )
   }
