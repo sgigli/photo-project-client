@@ -17,8 +17,8 @@ li {
 }
 
 .modal-image {
-  max-width: 500px;
-  cursor: pointer;
+  max-width: 800px;
+  max-height: 550px;
 }
 
 .icon {
@@ -33,6 +33,10 @@ li {
   -ms-transform: translateY(-50%);
   transform: translateY(-50%);
   display: block;
+}
+
+.icon:hover {
+  opacity: .6;
 }
 
 // .image {
@@ -71,4 +75,25 @@ li {
     color: transparent;
     // opacity: 0;
   }
+}
+
+.comments {
+  border: 1px solid black;
+}
+
+// .show-grid {
+//   border: 1px solid black;
+// }
+
+.modal-img-cont {
+  border: 1px solid black;
+  img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+.modal-com-cont {
+  border: 1px solid black;
 }

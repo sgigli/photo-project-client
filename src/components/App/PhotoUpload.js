@@ -5,7 +5,7 @@ import axios from 'axios'
 // import Image from 'react-bootstrap/Image'
 // import { Modal, Button } from 'react-bootstrap'
 // import { Button } from 'react-bootstrap'
-import Example from './Modal'
+import ImageModal from './Modal'
 // const Modal = require('react-bootstrap-modal')
 
 class PhotoUpload extends Component {
@@ -76,7 +76,7 @@ class PhotoUpload extends Component {
       return (
         <li key={index}>
           <div className='img_container' onClick={this.showModal}>
-            <Example image={img.fileUrl}/>
+            <ImageModal image={img.fileUrl}/>
           </div>
           <div className='img_bar'>
             <button
