@@ -15,6 +15,7 @@ class PhotoUpload extends Component {
       file: null,
       images: []
     }
+    this.handleDelete = this.handleDelete.bind(this)
   }
 
   handleFile (e) {
@@ -63,20 +64,12 @@ class PhotoUpload extends Component {
       })
   }
 
-  showModal () {
-
-  }
-
-  // handleShow () {
-  //   this.setState({ showModal: true })
-  // }
-
   render () {
     const images = this.state.images.map((img, index) => {
       return (
         <li key={index}>
           <div className='img_container' onClick={this.showModal}>
-            <ImageModal image={img.fileUrl}/>
+            <ImageModal image={img}/>
           </div>
           <div className='img_bar'>
             <button
