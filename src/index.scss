@@ -14,6 +14,7 @@ li {
 
 .modal-90w {
   min-width: 90%;
+  height: 90%;
 }
 
 .modal-image {
@@ -61,7 +62,6 @@ li {
   margin: 0 auto;
   position: relative;
   border: 3px solid green;
-  // text-align: center;
 }
 
 .img_bar {
@@ -73,17 +73,12 @@ li {
 .hide_file_field {
   input[type=file] {
     color: transparent;
-    // opacity: 0;
   }
 }
 
 .comments {
   border: 1px solid black;
 }
-
-// .show-grid {
-//   border: 1px solid black;
-// }
 
 .modal-img-cont {
   border: 1px solid black;
@@ -192,7 +187,8 @@ img{ max-width:100%;}
 .mesgs {
   float: left;
   padding: 30px 15px 0 25px;
-  width: 60%;
+  border: 1px solid green;
+  // width: 60%;
 }
 
  .sent_msg p {
@@ -233,6 +229,6 @@ img{ max-width:100%;}
 }
 .messaging { padding: 0 0 50px 0;}
 .msg_history {
-  height: 516px;
+  height: 410px;
   overflow-y: auto;
 }
