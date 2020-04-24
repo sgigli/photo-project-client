@@ -2,14 +2,38 @@ import React, { useState } from 'react'
 import { Button, Row, Col } from 'react-bootstrap'
 import Image from 'react-bootstrap/Image'
 import Modal from 'react-bootstrap/Modal'
+import apiUrl from '../../apiConfig'
+import axios from 'axios'
 // import { Button } from 'react-bootstrap-buttons'
 // import { render } from 'react-dom'
 
 function ImageModal (props) {
   const [show, setShow] = useState(false)
+  const [message, setMessage] = useState('')
 
   const handleClose = () => setShow(false)
   const handleShow = () => setShow(true)
+  const handleMessage = (e) => setMessage(e.target.value)
+
+  const sendComment = (e) => {
+    e.preventDefault()
+    console.log(message)
+    axios({
+      url: apiUrl + '/uploads/' + props.image._id,
+      method: 'PATCH',
+      data: {
+        upload: {
+          comments: [message]
+        }
+      }
+    })
+      .then(res => {
+        console.log(res)
+        // const images = res.data.uploads
+        // this.setState({ file: null, images: images })
+      })
+      .catch(console.error)
+  }
 
   const comments = props.image.comments.map((comment, index) => {
     return <li key={index}>{comment}</li>
@@ -62,10 +86,10 @@ function ImageModal (props) {
                   {comments2}
                 </div>
                 <div className="type_msg">
-                  <div className="input_msg_write">
-                    <input type="text" className="write_msg" placeholder="Type a message" />
+                  <form className="input_msg_write" onSubmit={sendComment}>
+                    <input type="text" className="write_msg" placeholder="Type a message" onChange={handleMessage}/>
                     <button className="msg_send_btn" type="button"><i className="fa fa-paper-plane-o" aria-hidden="true"></i></button>
-                  </div>
+                  </form>
                 </div>
               </div>
             </Col>
