@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Button, Row, Col } from 'react-bootstrap'
+import { Row, Col } from 'react-bootstrap'
 import Image from 'react-bootstrap/Image'
 import Modal from 'react-bootstrap/Modal'
 import apiUrl from '../../apiConfig'
@@ -10,36 +10,52 @@ import axios from 'axios'
 function ImageModal (props) {
   const [show, setShow] = useState(false)
   const [message, setMessage] = useState('')
+  const [unstyledComments, setUnstyledComments] = useState(props.image.comments)
 
   const handleClose = () => setShow(false)
   const handleShow = () => setShow(true)
   const handleMessage = (e) => setMessage(e.target.value)
+  // const handleComment = (e) => setUnstyledComments(unstyledComments + [e.target.value])
 
   const sendComment = (e) => {
     e.preventDefault()
-    console.log(message)
+    const comments = [...unstyledComments]
+    comments.push(message)
+    console.log(comments, unstyledComments)
+    // setUnstyledComments(props.image.comments)
     axios({
       url: apiUrl + '/uploads/' + props.image._id,
       method: 'PATCH',
       data: {
         upload: {
-          comments: [message]
+          comments: comments
         }
       }
     })
       .then(res => {
         console.log(res)
+        getImage()
         // const images = res.data.uploads
         // this.setState({ file: null, images: images })
       })
       .catch(console.error)
   }
 
-  const comments = props.image.comments.map((comment, index) => {
-    return <li key={index}>{comment}</li>
-  })
+  const getImage = () => {
+    axios({
+      url: apiUrl + '/uploads/' + props.image._id,
+      method: 'GET'
+    })
+      .then(res => {
+        console.log(res)
+        setUnstyledComments(res.data.upload.comments)
+        // const images = res.data.uploads
+        // this.setState({ file: null, images: images })
+      })
+      .catch(console.error)
+  }
 
-  const comments2 = props.image.comments.map((comment, index) => {
+  const styledComments = unstyledComments.map((comment, index) => {
     return <div key={index} className="incoming_msg">
       <div className="incoming_msg_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil" /> </div>
       <div className="received_msg">
@@ -57,7 +73,6 @@ function ImageModal (props) {
 
       <Modal dialogClassName='modal-90w' show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Modal heading</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Row className="show-grid">
@@ -67,9 +82,6 @@ function ImageModal (props) {
             <Col className="modal-com-cont">
               <div className="comments">
                 Comments
-                <ul>
-                  {comments}
-                </ul>
               </div>
               <div className="mesgs">
                 <div className="msg_history">
@@ -83,7 +95,7 @@ function ImageModal (props) {
                       </div>
                     </div>
                   </div>
-                  {comments2}
+                  {styledComments}
                 </div>
                 <div className="type_msg">
                   <form className="input_msg_write" onSubmit={sendComment}>
@@ -96,12 +108,6 @@ function ImageModal (props) {
           </Row>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Close
-          </Button>
-          <Button variant="primary" onClick={handleClose}>
-            Save Changes
-          </Button>
         </Modal.Footer>
       </Modal>
     </div>
