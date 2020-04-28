@@ -15,7 +15,6 @@ function ImageModal (props) {
   const handleClose = () => setShow(false)
   const handleShow = () => setShow(true)
   const handleMessage = (e) => setMessage(e.target.value)
-  // const handleComment = (e) => setUnstyledComments(unstyledComments + [e.target.value])
 
   const sendComment = (e) => {
     e.preventDefault()
@@ -49,13 +48,24 @@ function ImageModal (props) {
       .then(res => {
         console.log(res)
         setUnstyledComments(res.data.upload.comments)
+        document.getElementById('comment_form').reset()
+        const element = document.getElementById('history')
+        element.scrollTop = element.scrollHeight
         // const images = res.data.uploads
         // this.setState({ file: null, images: images })
       })
       .catch(console.error)
   }
 
+  // if (!unstyledComments) {
+  //   getImage()
+  // } else {
+  // console.log(unstyledComments)
+  // const temp = unstyledComments.reverse()
+  // console.log(temp)
   const styledComments = unstyledComments.map((comment, index) => {
+    // return comment + '!'
+    console.log(comment)
     return <div key={index} className="incoming_msg">
       <div className="incoming_msg_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil" /> </div>
       <div className="received_msg">
@@ -66,6 +76,7 @@ function ImageModal (props) {
       </div>
     </div>
   })
+  // console.log(styledComments)
 
   return (
     <div>
@@ -84,21 +95,13 @@ function ImageModal (props) {
                 Comments
               </div>
               <div className="mesgs">
-                <div className="msg_history">
-                  <div className="incoming_msg">
-                    <div className="incoming_msg_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil" /> </div>
-                    <div className="received_msg">
-                      <div className="received_withd_msg">
-                        <p>Test which is a new approach to have all
-                          solutions</p>
-                        <span className="time_date"> 11:01 AM    |    June 9</span>
-                      </div>
-                    </div>
+                <div id="history" className="msg_history">
+                  <div>
+                    {styledComments}
                   </div>
-                  {styledComments}
                 </div>
                 <div className="type_msg">
-                  <form className="input_msg_write" onSubmit={sendComment}>
+                  <form id='comment_form' className="input_msg_write" onSubmit={sendComment}>
                     <input type="text" className="write_msg" placeholder="Type a message" onChange={handleMessage}/>
                     <button className="msg_send_btn" type="button"><i className="fa fa-paper-plane-o" aria-hidden="true"></i></button>
                   </form>

@@ -64,12 +64,27 @@ class PhotoUpload extends Component {
       })
   }
 
+  // getImage (id) {
+  //   return axios({
+  //     url: apiUrl + '/uploads/' + id,
+  //     method: 'GET'
+  //   })
+  // }
+
+  // .then(res => {
+  //   console.log(res)
+  //   result = res.data.upload.comments
+  //   // const images = res.data.uploads
+  //   // this.setState({ file: null, images: images })
+  // })
+  // .catch(console.error)
+
   render () {
     const images = this.state.images.map((img, index) => {
       return (
         <li key={index}>
           <div className='img_container' onClick={this.showModal}>
-            <ImageModal image={img}/>
+            <ImageModal image={img} getImage={this.getImage}/>
           </div>
           <div className='img_bar'>
             <button
