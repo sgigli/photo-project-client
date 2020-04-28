@@ -231,7 +231,7 @@ img{ max-width:100%;}
 .msg_history {
   height: 410px;
   overflow-y: auto;
-  display: flex;
-  flex-direction: column-reverse;
-  flex-flow: column nowrap;
+  // display: flex;
+  // flex-direction: column-reverse;
+  // flex-flow: column nowrap;
 }
