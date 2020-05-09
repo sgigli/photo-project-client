@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 // import { withRouter } from 'react-router-dom'
 import apiUrl from '../../apiConfig'
 import axios from 'axios'
+import Grid from 'react-css-grid'
 // import Image from 'react-bootstrap/Image'
 // import { Modal, Button } from 'react-bootstrap'
 // import { Button } from 'react-bootstrap'
@@ -79,10 +80,12 @@ class PhotoUpload extends Component {
   // })
   // .catch(console.error)
 
+  // <ul className="">{images}</ul>
+
   render () {
     const images = this.state.images.map((img, index) => {
       return (
-        <li key={index}>
+        <div key={index} className=''>
           <div className='img_container' onClick={this.showModal}>
             <ImageModal image={img} getImage={this.getImage}/>
           </div>
@@ -95,7 +98,7 @@ class PhotoUpload extends Component {
               Delete
             </button>
           </div>
-        </li>
+        </div>
       )
     })
     return (
@@ -107,7 +110,7 @@ class PhotoUpload extends Component {
           <button onClick={(e) => this.handleUpload(e)}>Upload</button>
           <button onClick={(e) => this.handleGetImages(e)}>Get Images</button>
         </div>
-        <ul>{images}</ul>
+        <Grid width={300}>{images}</Grid>
       </main>
     )
   }

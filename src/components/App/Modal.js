@@ -20,8 +20,7 @@ function ImageModal (props) {
     e.preventDefault()
     const comments = [...unstyledComments]
     comments.push(message)
-    console.log(comments, unstyledComments)
-    // setUnstyledComments(props.image.comments)
+
     axios({
       url: apiUrl + '/uploads/' + props.image._id,
       method: 'PATCH',
@@ -34,8 +33,6 @@ function ImageModal (props) {
       .then(res => {
         console.log(res)
         getImage()
-        // const images = res.data.uploads
-        // this.setState({ file: null, images: images })
       })
       .catch(console.error)
   }
@@ -46,26 +43,15 @@ function ImageModal (props) {
       method: 'GET'
     })
       .then(res => {
-        console.log(res)
         setUnstyledComments(res.data.upload.comments)
         document.getElementById('comment_form').reset()
         const element = document.getElementById('history')
         element.scrollTop = element.scrollHeight
-        // const images = res.data.uploads
-        // this.setState({ file: null, images: images })
       })
       .catch(console.error)
   }
 
-  // if (!unstyledComments) {
-  //   getImage()
-  // } else {
-  // console.log(unstyledComments)
-  // const temp = unstyledComments.reverse()
-  // console.log(temp)
   const styledComments = unstyledComments.map((comment, index) => {
-    // return comment + '!'
-    console.log(comment)
     return <div key={index} className="incoming_msg">
       <div className="incoming_msg_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil" /> </div>
       <div className="received_msg">
@@ -76,7 +62,6 @@ function ImageModal (props) {
       </div>
     </div>
   })
-  // console.log(styledComments)
 
   return (
     <div>
@@ -88,7 +73,11 @@ function ImageModal (props) {
         <Modal.Body>
           <Row className="show-grid">
             <Col className="modal-img-cont" xs={8}>
-              <Image src={props.image.fileUrl} className="modal-image"/>
+              <div className="cont">
+                <div className="vert">
+                  <Image src={props.image.fileUrl} className="modal-image"/>
+                </div>
+              </div>
             </Col>
             <Col className="modal-com-cont">
               <div className="comments">
