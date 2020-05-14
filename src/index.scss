@@ -24,19 +24,23 @@ li {
 }
 
 .icon {
+  vertical-align: middle;
+}
+
+.icon_inner {
   max-height: 245px;
   max-width: 295px;
   cursor: pointer;
-  // margin-left: auto;
-  // margin-right: auto;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
   // position: absolute;
   // top: 50%;
   // -ms-transform: translateY(-50%);
   // transform: translateY(-50%);
-  // display: block;
 }
 
-.icon:hover {
+.icon_inner:hover {
   opacity: .6;
 }
 
@@ -59,16 +63,23 @@ li {
   width: 300px;
   background-color: #f2f2f2;
   // border: 2px solid black;
-  margin: 0 auto;
-  position: relative;
+  // position: relative;
   border: 3px solid green;
+  vertical-align: middle;
+  display: table-cell;
+  // text-align: center;
+  // margin: 0 auto;
 }
 
 .img_bar {
   height: 50px;
   width: 300px;
-  margin: 0 auto;
+  // margin: 0 auto;
   border: 3px solid black;
+}
+
+.grid_cell {
+  margin: 0 auto;
 }
 
 .hide_file_field {
@@ -125,6 +136,9 @@ li {
   margin: 20px;
   p {
     display: inline-block;
+    margin: 0 5px;
+    font-style: italic;
+    color: gray;
   }
 }
 

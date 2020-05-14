@@ -84,9 +84,9 @@ class PhotoUpload extends Component {
   render () {
     const images = this.state.images.map((img, index) => {
       return (
-        <div key={index} className=''>
+        <div className="grid_cell" key={index}>
           <div className='img_container' onClick={this.showModal}>
-            <ImageModal image={img} getImage={this.getImage}/>
+            <ImageModal className='icon' image={img} getImage={this.getImage}/>
           </div>
           <div className='img_bar'>
             <button
@@ -96,6 +96,7 @@ class PhotoUpload extends Component {
             >
               Delete
             </button>
+            <p>likes: {img.likes.length} comments: {img.comments.length}</p>
           </div>
         </div>
       )
@@ -106,10 +107,10 @@ class PhotoUpload extends Component {
           <input ref={this.fileInput} type="file" id="myfile" name="myfile" style={{ display: 'none' }} onChange={(e) =>
             this.handleFile(e)} />
           <button onClick={this.triggerFileHandler}>Choose photo</button>
-          <p>{!this.state.file ? '' : this.state.file.name}</p>
+          {!this.state.file ? '' : <p>{this.state.file.name}</p>}
           <button onClick={(e) => this.handleUpload(e)}>Upload</button>
         </div>
-        <Grid width={300}>{images}</Grid>
+        <Grid width={300} justify-items='center'>{images}</Grid>
       </main>
     )
   }

@@ -65,7 +65,7 @@ function ImageModal (props) {
 
   return (
     <div>
-      <Image className='icon' src={props.image.fileUrl} onClick={handleShow} thumbnail />
+      <Image className='icon_inner' src={props.image.fileUrl} onClick={handleShow} thumbnail />
 
       <Modal dialogClassName='modal-90w' show={show} onHide={handleClose}>
         <Modal.Header closeButton>
