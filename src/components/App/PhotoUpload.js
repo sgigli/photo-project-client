@@ -7,6 +7,7 @@ import Grid from 'react-css-grid'
 // import { Modal, Button } from 'react-bootstrap'
 // import { Button } from 'react-bootstrap'
 import ImageModal from './Modal'
+// import $ from 'jquery'
 // const Modal = require('react-bootstrap-modal')
 
 class PhotoUpload extends Component {
@@ -16,16 +17,25 @@ class PhotoUpload extends Component {
       file: null,
       images: []
     }
-    this.handleDelete = this.handleDelete.bind(this)
+    this.fileInput = React.createRef()
   }
 
-  handleFile (e) {
+  triggerFileHandler = (e) => {
+    console.log('test')
+    console.log(this.fileInput.current)
+    this.fileInput.current.click()
+    // this.fileInput.text = 'TESTT'
+    // $('#myfile').trigger('click')
+  }
+
+  handleFile = (e) => {
     console.log(e.target.files[0], '$$$$')
     const file = e.target.files[0]
+    console.log(file.name)
     this.setState({ file: file })
   }
 
-  handleUpload (e) {
+  handleUpload = (e) => {
     const file = this.state.file
     const formdata = new FormData()
     formdata.append('file', file)
@@ -37,11 +47,12 @@ class PhotoUpload extends Component {
     })
       .then(() => {
         this.handleGetImages()
-        document.getElementById('myfile').value = null
+        this.fileInput.current.value = null
+        // $('#myfile').value = null
       })
   }
 
-  handleGetImages (e) {
+  handleGetImages = (e) => {
     axios({
       url: apiUrl + '/uploads',
       method: 'GET'
@@ -54,7 +65,7 @@ class PhotoUpload extends Component {
       .catch(console.error)
   }
 
-  handleDelete (e) {
+  handleDelete = (e) => {
     const id = e.target.id
     axios({
       url: apiUrl + '/uploads/' + id,
@@ -65,22 +76,10 @@ class PhotoUpload extends Component {
       })
   }
 
-  // getImage (id) {
-  //   return axios({
-  //     url: apiUrl + '/uploads/' + id,
-  //     method: 'GET'
-  //   })
-  // }
-
-  // .then(res => {
-  //   console.log(res)
-  //   result = res.data.upload.comments
-  //   // const images = res.data.uploads
-  //   // this.setState({ file: null, images: images })
-  // })
-  // .catch(console.error)
-
-  // <ul className="">{images}</ul>
+  componentDidMount () {
+    console.log('DIDMOUNT')
+    this.handleGetImages()
+  }
 
   render () {
     const images = this.state.images.map((img, index) => {
@@ -103,12 +102,12 @@ class PhotoUpload extends Component {
     })
     return (
       <main>
-        <div className={this.state.file ? '' : 'hide_file_field'}>
-          <label>Select a file:</label>
-          <input type="file" id="myfile" name="myfile" onChange={(e) =>
+        <div className={this.state.file ? 'upload_bar' : 'upload_bar hide_file_field'}>
+          <input ref={this.fileInput} type="file" id="myfile" name="myfile" style={{ display: 'none' }} onChange={(e) =>
             this.handleFile(e)} />
+          <button onClick={this.triggerFileHandler}>Choose photo</button>
+          <p>{!this.state.file ? '' : this.state.file.name}</p>
           <button onClick={(e) => this.handleUpload(e)}>Upload</button>
-          <button onClick={(e) => this.handleGetImages(e)}>Get Images</button>
         </div>
         <Grid width={300}>{images}</Grid>
       </main>

@@ -26,7 +26,7 @@ li {
 .icon {
   max-height: 245px;
   max-width: 295px;
-  // cursor: pointer;
+  cursor: pointer;
   // margin-left: auto;
   // margin-right: auto;
   // position: absolute;
@@ -118,6 +118,14 @@ li {
 .grid-item {
   grid-area: main;
   border: 1px solid black;
+}
+
+.upload_bar {
+  text-align: center;
+  margin: 20px;
+  p {
+    display: inline-block;
+  }
 }
 
 // CHAT CSS
