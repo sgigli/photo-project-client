@@ -3,6 +3,10 @@ import React, { Component } from 'react'
 import apiUrl from '../../apiConfig'
 import axios from 'axios'
 import Grid from 'react-css-grid'
+import { FiTrash2 } from 'react-icons/fi'
+import { FaRegCommentAlt } from 'react-icons/fa'
+import { AiFillLike } from 'react-icons/ai'
+// import { IconContext } from 'react-icons'
 // import Image from 'react-bootstrap/Image'
 // import { Modal, Button } from 'react-bootstrap'
 // import { Button } from 'react-bootstrap'
@@ -66,7 +70,10 @@ class PhotoUpload extends Component {
   }
 
   handleDelete = (e) => {
+    console.log('test')
     const id = e.target.id
+    console.log(e.target)
+    console.log(id)
     axios({
       url: apiUrl + '/uploads/' + id,
       method: 'DELETE'
@@ -89,14 +96,16 @@ class PhotoUpload extends Component {
             <ImageModal className='icon' image={img} getImage={this.getImage}/>
           </div>
           <div className='img_bar'>
-            <button
-              className='btn-danger'
-              onClick={this.handleDelete}
-              id={img._id}
-            >
-              Delete
-            </button>
-            <p>likes: {img.likes.length} comments: {img.comments.length}</p>
+            <AiFillLike className='AiFillLike'/>
+            <p className='bar_info'>{img.likes.length}</p>
+            <FaRegCommentAlt className='FaRegCommentAlt'/>
+            <p className='bar_info'>{img.comments.length}</p>
+            <div className='FiTrash2'>
+              <FiTrash2
+                onClick={this.handleDelete}
+                id={img._id}
+              />
+            </div>
           </div>
         </div>
       )
@@ -106,9 +115,9 @@ class PhotoUpload extends Component {
         <div className={this.state.file ? 'upload_bar' : 'upload_bar hide_file_field'}>
           <input ref={this.fileInput} type="file" id="myfile" name="myfile" style={{ display: 'none' }} onChange={(e) =>
             this.handleFile(e)} />
-          <button onClick={this.triggerFileHandler}>Choose photo</button>
+          <button className='.btn btn-primary' onClick={this.triggerFileHandler}>Choose photo</button>
           {!this.state.file ? '' : <p>{this.state.file.name}</p>}
-          <button onClick={(e) => this.handleUpload(e)}>Upload</button>
+          <button type='button' className='.btn btn-default' disabled={this.state.file ? '' : 'disabled'} onClick={(e) => this.handleUpload(e)}>Upload</button>
         </div>
         <Grid width={300} justify-items='center'>{images}</Grid>
       </main>
