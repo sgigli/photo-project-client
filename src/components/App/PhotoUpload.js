@@ -70,7 +70,6 @@ class PhotoUpload extends Component {
   }
 
   handleDelete = (e) => {
-    console.log('test')
     const id = e.target.id
     console.log(e.target)
     console.log(id)
@@ -83,8 +82,27 @@ class PhotoUpload extends Component {
       })
   }
 
+  handleLike = (e) => {
+    const id = e.currentTarget.id
+    const index = e.currentTarget.getAttribute('data-index')
+    const img = this.state.images[index]
+    const oldLikesArray = img.likes
+    const newLikesArray = oldLikesArray.concat('user@test.com')
+    axios({
+      url: apiUrl + '/uploads/' + id,
+      method: 'PATCH',
+      data: {
+        'upload': {
+          'likes': newLikesArray
+        }
+      }
+    })
+      .then(() => {
+        this.handleGetImages()
+      })
+  }
+
   componentDidMount () {
-    console.log('DIDMOUNT')
     this.handleGetImages()
   }
 
@@ -96,7 +114,7 @@ class PhotoUpload extends Component {
             <ImageModal className='icon' image={img} getImage={this.getImage}/>
           </div>
           <div className='img_bar'>
-            <AiFillLike className='AiFillLike'/>
+            <AiFillLike id={img._id} data-index={index} onClick={this.handleLike} className='AiFillLike'/>
             <p className='bar_info'>{img.likes.length}</p>
             <FaRegCommentAlt className='FaRegCommentAlt'/>
             <p className='bar_info'>{img.comments.length}</p>
