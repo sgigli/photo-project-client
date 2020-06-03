@@ -43,17 +43,20 @@ class PhotoUpload extends Component {
     const file = this.state.file
     const formdata = new FormData()
     formdata.append('file', file)
+    formdata.append('owner', this.props.user.username)
 
-    axios({
-      url: apiUrl + '/uploads',
-      method: 'POST',
-      data: formdata
-    })
-      .then(() => {
-        this.handleGetImages()
-        this.fileInput.current.value = null
-        // $('#myfile').value = null
-      })
+    console.log(formdata)
+
+    // axios({
+    //   url: apiUrl + '/uploads',
+    //   method: 'POST',
+    //   data: formdata
+    // })
+    //   .then(() => {
+    //     this.handleGetImages()
+    //     this.fileInput.current.value = null
+    //     // $('#myfile').value = null
+    //   })
   }
 
   handleGetImages = (e) => {
@@ -83,28 +86,35 @@ class PhotoUpload extends Component {
   }
 
   handleLike = (e) => {
-    const id = e.currentTarget.id
-    const index = e.currentTarget.getAttribute('data-index')
-    const img = this.state.images[index]
-    const oldLikesArray = img.likes
-    const newLikesArray = oldLikesArray.concat('user@test.com')
-    axios({
-      url: apiUrl + '/uploads/' + id,
-      method: 'PATCH',
-      data: {
-        'upload': {
-          'likes': newLikesArray
-        }
-      }
-    })
-      .then(() => {
-        this.handleGetImages()
-      })
+    console.log(this.props.user)
+    // const id = e.currentTarget.id
+    // const index = e.currentTarget.getAttribute('data-index')
+    // const img = this.state.images[index]
+    // const oldLikesArray = img.likes
+    // const newLikesArray = oldLikesArray.concat(this.props.user)
+    // axios({
+    //   url: apiUrl + '/uploads/' + id,
+    //   method: 'PATCH',
+    //   data: {
+    //     'upload': {
+    //       'likes': newLikesArray
+    //     }
+    //   }
+    // })
+    //   .then(() => {
+    //     this.handleGetImages()
+    //   })
   }
 
   componentDidMount () {
     this.handleGetImages()
   }
+
+  // <div className="FiTrash2Clear">
+  //   <FiTrash2 onClick={this.handleDelete} id={img._id} className="FiTrash2"/>
+  // </div>
+
+  // <FiTrash2 onClick={this.handleDelete} id={img._id} className="FiTrash2"/>
 
   render () {
     const images = this.state.images.map((img, index) => {
@@ -118,12 +128,9 @@ class PhotoUpload extends Component {
             <p className='bar_info'>{img.likes.length}</p>
             <FaRegCommentAlt className='FaRegCommentAlt'/>
             <p className='bar_info'>{img.comments.length}</p>
-            <div className='FiTrash2'>
-              <FiTrash2
-                onClick={this.handleDelete}
-                id={img._id}
-              />
-            </div>
+            <FiTrash2 onClick={this.handleDelete} id={img._id} className="FiTrash2"/>
+            <div style={{ clear: 'both' }}></div>
+            <p className='username'>{img.owner.username}</p>
           </div>
         </div>
       )
