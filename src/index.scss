@@ -75,11 +75,16 @@ li {
   height: 50px;
   width: 300px;
   border: 1px solid gray;
-  p {
+  .bar_info {
     display: inline-block;
     color: gray;
     font-style: italic;
     margin-right: 5px;
+  }
+  .username {
+    margin-top: -17px;
+    margin-left: 6px;
+    color: #4d4d4d;
   }
 }
 
@@ -147,21 +152,38 @@ li {
   }
 }
 
-// .bar_info {
-//   display: inline-block;
-// }
-
 .FiTrash2 {
   color: red;
   opacity: 0.6;
   float: right;
-  margin-right: 2px;
+  margin-right: 4px;
+  margin-top: 6px;
 }
 
 .FiTrash2:hover {
   opacity: 1.0;
   cursor: pointer;
 }
+
+// .username {
+//   clear: both;
+// }
+
+// .FiTrash2Clear::after {
+//   content: ".";
+//   visibility: hidden;
+//   display: block;
+//   height: 0;
+//   clear: both;
+// }
+//
+// .clearfix:after {
+//    content: ".";
+//    visibility: hidden;
+//    display: block;
+//    height: 0;
+//    clear: both;
+// }
 
 .AiFillLike {
   color: #4db8ff;
@@ -171,6 +193,16 @@ li {
 
 .AiFillLike:hover {
   color: #007acc;
+  cursor: pointer;
+}
+
+.AiFillLike-LikedByUser {
+  color: #007acc;
+  margin-left: 5px;
+  margin-right: 2px;
+}
+
+.AiFillLike-LikedByUser:hover {
   cursor: pointer;
 }
 

@@ -56,7 +56,7 @@ class App extends Component {
             <ChangePassword msgAlert={this.msgAlert} user={user} />
           )} />
         </main>
-        <PhotoUpload/>
+        {this.state.user ? <PhotoUpload user={user}/> : ''}
       </Fragment>
     )
   }

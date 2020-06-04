@@ -22,6 +22,7 @@ class PhotoUpload extends Component {
       images: []
     }
     this.fileInput = React.createRef()
+    this.modal = React.createRef()
   }
 
   triggerFileHandler = (e) => {
@@ -43,6 +44,9 @@ class PhotoUpload extends Component {
     const file = this.state.file
     const formdata = new FormData()
     formdata.append('file', file)
+    formdata.append('owner', this.props.user._id)
+
+    console.log(formdata)
 
     axios({
       url: apiUrl + '/uploads',
@@ -82,18 +86,19 @@ class PhotoUpload extends Component {
       })
   }
 
-  handleLike = (e) => {
-    const id = e.currentTarget.id
-    const index = e.currentTarget.getAttribute('data-index')
-    const img = this.state.images[index]
-    const oldLikesArray = img.likes
-    const newLikesArray = oldLikesArray.concat('user@test.com')
+  handleLike = (id, index, likes) => {
+    if (index === -1) {
+      likes = likes.concat(this.props.user._id)
+    } else {
+      likes.splice(index, 1)
+    }
+
     axios({
       url: apiUrl + '/uploads/' + id,
       method: 'PATCH',
       data: {
         'upload': {
-          'likes': newLikesArray
+          'likes': likes
         }
       }
     })
@@ -106,24 +111,31 @@ class PhotoUpload extends Component {
     this.handleGetImages()
   }
 
+  // <div className="FiTrash2Clear">
+  //   <FiTrash2 onClick={this.handleDelete} id={img._id} className="FiTrash2"/>
+  // </div>
+
+  // <FiTrash2 onClick={this.handleDelete} id={img._id} className="FiTrash2"/>
+
   render () {
     const images = this.state.images.map((img, index) => {
+      // find index of user id in likes array
+      const idIndex = img.likes.indexOf(this.props.user._id)
+
       return (
         <div className="grid_cell" key={index}>
-          <div className='img_container' onClick={this.showModal}>
-            <ImageModal className='icon' image={img} getImage={this.getImage}/>
+          <div className='img_container' >
+            <ImageModal ref={this.modal} className='icon' image={img} />
           </div>
           <div className='img_bar'>
-            <AiFillLike id={img._id} data-index={index} onClick={this.handleLike} className='AiFillLike'/>
+            <AiFillLike id={img._id} data-index={index} onClick={() => this.handleLike(img._id, idIndex, img.likes)}
+              className={idIndex !== -1 ? 'AiFillLike-LikedByUser' : 'AiFillLike' }/>
             <p className='bar_info'>{img.likes.length}</p>
-            <FaRegCommentAlt className='FaRegCommentAlt'/>
+            <FaRegCommentAlt className='FaRegCommentAlt' onClick={() => this.modal.current.callHandleShow()}/>
             <p className='bar_info'>{img.comments.length}</p>
-            <div className='FiTrash2'>
-              <FiTrash2
-                onClick={this.handleDelete}
-                id={img._id}
-              />
-            </div>
+            {img.owner._id === this.props.user._id ? <FiTrash2 onClick={this.handleDelete} id={img._id} className="FiTrash2"/> : ''}
+            <div style={{ clear: 'both' }}></div>
+            <p className='username'>posted by {img.owner.username}</p>
           </div>
         </div>
       )

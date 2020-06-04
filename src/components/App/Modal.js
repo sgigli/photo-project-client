@@ -6,13 +6,19 @@ import apiUrl from '../../apiConfig'
 import axios from 'axios'
 // import { Button } from 'react-bootstrap-buttons'
 // import { render } from 'react-dom'
+// function ImageModal (props)
 
-function ImageModal (props) {
+const ImageModal = React.forwardRef((props, ref) => {
   const [show, setShow] = useState(false)
   const [message, setMessage] = useState('')
   const [unstyledComments, setUnstyledComments] = useState(props.image.comments)
 
   const handleClose = () => setShow(false)
+  React.useImperativeHandle(ref, () => ({
+    callHandleShow () {
+      handleShow()
+    }
+  }))
   const handleShow = () => setShow(true)
   const handleMessage = (e) => setMessage(e.target.value)
 
@@ -104,6 +110,8 @@ function ImageModal (props) {
       </Modal>
     </div>
   )
-}
+})
+
+ImageModal.displayName = 'ImageModal'
 
 export default ImageModal
