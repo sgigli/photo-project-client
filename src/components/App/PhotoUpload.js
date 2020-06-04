@@ -22,21 +22,21 @@ class PhotoUpload extends Component {
       images: []
     }
     this.fileInput = React.createRef()
-    this.modal = React.createRef()
+    this.trackRefs = []
+  }
+
+  setRef = (ref) => {
+    this.trackRefs.push(ref)
   }
 
   triggerFileHandler = (e) => {
     console.log('test')
     console.log(this.fileInput.current)
     this.fileInput.current.click()
-    // this.fileInput.text = 'TESTT'
-    // $('#myfile').trigger('click')
   }
 
   handleFile = (e) => {
-    console.log(e.target.files[0], '$$$$')
     const file = e.target.files[0]
-    console.log(file.name)
     this.setState({ file: file })
   }
 
@@ -56,7 +56,6 @@ class PhotoUpload extends Component {
       .then(() => {
         this.handleGetImages()
         this.fileInput.current.value = null
-        // $('#myfile').value = null
       })
   }
 
@@ -66,7 +65,6 @@ class PhotoUpload extends Component {
       method: 'GET'
     })
       .then(res => {
-        console.log(res.data.uploads)
         const images = res.data.uploads
         this.setState({ file: null, images: images })
       })
@@ -75,8 +73,6 @@ class PhotoUpload extends Component {
 
   handleDelete = (e) => {
     const id = e.target.id
-    console.log(e.target)
-    console.log(id)
     axios({
       url: apiUrl + '/uploads/' + id,
       method: 'DELETE'
@@ -125,13 +121,13 @@ class PhotoUpload extends Component {
       return (
         <div className="grid_cell" key={index}>
           <div className='img_container' >
-            <ImageModal ref={this.modal} className='icon' image={img} />
+            <ImageModal ref={this.setRef} className='icon' image={img} />
           </div>
           <div className='img_bar'>
             <AiFillLike id={img._id} data-index={index} onClick={() => this.handleLike(img._id, idIndex, img.likes)}
               className={idIndex !== -1 ? 'AiFillLike-LikedByUser' : 'AiFillLike' }/>
             <p className='bar_info'>{img.likes.length}</p>
-            <FaRegCommentAlt className='FaRegCommentAlt' onClick={() => this.modal.current.callHandleShow()}/>
+            <FaRegCommentAlt className='FaRegCommentAlt' onClick={() => this.trackRefs[index].callHandleShow()}/>
             <p className='bar_info'>{img.comments.length}</p>
             {img.owner._id === this.props.user._id ? <FiTrash2 onClick={this.handleDelete} id={img._id} className="FiTrash2"/> : ''}
             <div style={{ clear: 'both' }}></div>
