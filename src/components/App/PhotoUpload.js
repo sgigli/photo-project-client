@@ -22,6 +22,7 @@ class PhotoUpload extends Component {
       images: []
     }
     this.fileInput = React.createRef()
+    this.modal = React.createRef()
   }
 
   triggerFileHandler = (e) => {
@@ -43,20 +44,20 @@ class PhotoUpload extends Component {
     const file = this.state.file
     const formdata = new FormData()
     formdata.append('file', file)
-    formdata.append('owner', this.props.user.username)
+    formdata.append('owner', this.props.user._id)
 
     console.log(formdata)
 
-    // axios({
-    //   url: apiUrl + '/uploads',
-    //   method: 'POST',
-    //   data: formdata
-    // })
-    //   .then(() => {
-    //     this.handleGetImages()
-    //     this.fileInput.current.value = null
-    //     // $('#myfile').value = null
-    //   })
+    axios({
+      url: apiUrl + '/uploads',
+      method: 'POST',
+      data: formdata
+    })
+      .then(() => {
+        this.handleGetImages()
+        this.fileInput.current.value = null
+        // $('#myfile').value = null
+      })
   }
 
   handleGetImages = (e) => {
@@ -85,25 +86,25 @@ class PhotoUpload extends Component {
       })
   }
 
-  handleLike = (e) => {
-    console.log(this.props.user)
-    // const id = e.currentTarget.id
-    // const index = e.currentTarget.getAttribute('data-index')
-    // const img = this.state.images[index]
-    // const oldLikesArray = img.likes
-    // const newLikesArray = oldLikesArray.concat(this.props.user)
-    // axios({
-    //   url: apiUrl + '/uploads/' + id,
-    //   method: 'PATCH',
-    //   data: {
-    //     'upload': {
-    //       'likes': newLikesArray
-    //     }
-    //   }
-    // })
-    //   .then(() => {
-    //     this.handleGetImages()
-    //   })
+  handleLike = (id, index, likes) => {
+    if (index === -1) {
+      likes = likes.concat(this.props.user._id)
+    } else {
+      likes.splice(index, 1)
+    }
+
+    axios({
+      url: apiUrl + '/uploads/' + id,
+      method: 'PATCH',
+      data: {
+        'upload': {
+          'likes': likes
+        }
+      }
+    })
+      .then(() => {
+        this.handleGetImages()
+      })
   }
 
   componentDidMount () {
@@ -118,19 +119,23 @@ class PhotoUpload extends Component {
 
   render () {
     const images = this.state.images.map((img, index) => {
+      // find index of user id in likes array
+      const idIndex = img.likes.indexOf(this.props.user._id)
+
       return (
         <div className="grid_cell" key={index}>
-          <div className='img_container' onClick={this.showModal}>
-            <ImageModal className='icon' image={img} getImage={this.getImage}/>
+          <div className='img_container' >
+            <ImageModal ref={this.modal} className='icon' image={img} />
           </div>
           <div className='img_bar'>
-            <AiFillLike id={img._id} data-index={index} onClick={this.handleLike} className='AiFillLike'/>
+            <AiFillLike id={img._id} data-index={index} onClick={() => this.handleLike(img._id, idIndex, img.likes)}
+              className={idIndex !== -1 ? 'AiFillLike-LikedByUser' : 'AiFillLike' }/>
             <p className='bar_info'>{img.likes.length}</p>
-            <FaRegCommentAlt className='FaRegCommentAlt'/>
+            <FaRegCommentAlt className='FaRegCommentAlt' onClick={() => this.modal.current.callHandleShow()}/>
             <p className='bar_info'>{img.comments.length}</p>
-            <FiTrash2 onClick={this.handleDelete} id={img._id} className="FiTrash2"/>
+            {img.owner._id === this.props.user._id ? <FiTrash2 onClick={this.handleDelete} id={img._id} className="FiTrash2"/> : ''}
             <div style={{ clear: 'both' }}></div>
-            <p className='username'>{img.owner.username}</p>
+            <p className='username'>posted by {img.owner.username}</p>
           </div>
         </div>
       )

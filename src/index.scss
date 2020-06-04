@@ -82,8 +82,9 @@ li {
     margin-right: 5px;
   }
   .username {
-    margin-top: -16px;
+    margin-top: -17px;
     margin-left: 6px;
+    color: #4d4d4d;
   }
 }
 
@@ -192,6 +193,16 @@ li {
 
 .AiFillLike:hover {
   color: #007acc;
+  cursor: pointer;
+}
+
+.AiFillLike-LikedByUser {
+  color: #007acc;
+  margin-left: 5px;
+  margin-right: 2px;
+}
+
+.AiFillLike-LikedByUser:hover {
   cursor: pointer;
 }
 
