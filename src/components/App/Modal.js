@@ -105,12 +105,10 @@ const ImageModal = React.forwardRef((props, ref) => {
         <Modal.Header closeButton>
         </Modal.Header>
         <Modal.Body>
-          <Row className="show-grid">
+          <Row className="show-grid modal-main-row">
             <Col className="modal-img-cont" xs={8}>
-              <div className="cont">
-                <div className="vert">
-                  <Image src={props.image.fileUrl} className="modal-image"/>
-                </div>
+              <div className="horizontal-center">
+                <Image src={props.image.fileUrl} className="modal-image"/>
               </div>
             </Col>
             <Col className="modal-com-cont">
@@ -119,9 +117,7 @@ const ImageModal = React.forwardRef((props, ref) => {
               </div>
               <div className="mesgs">
                 <div id="history" className="msg_history">
-                  <div>
-                    {styledComments}
-                  </div>
+                  {styledComments}
                 </div>
                 <div className="type_msg">
                   <form id='comment_form' className="input_msg_write" onSubmit={sendComment}>
