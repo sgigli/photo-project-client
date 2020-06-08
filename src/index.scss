@@ -1,30 +1,24 @@
 @import '~bootstrap/scss/bootstrap';
 
-main {
-  // text-align: center;
-  // margin: 0 auto;
-}
-
-ul {
-  list-style-type: none;
-}
-
-li {
-  display: inline-block;
-}
-
 .modal-90w {
   min-width: 90%;
-  height: 90%;
 }
 
 .modal-image {
-  max-width: 800px;
-  max-height: 550px;
+  max-width: 100%;
+  max-height: calc(100vh - 200px);
 }
 
-.icon {
-  vertical-align: middle;
+.modal-img-cont {
+  display: flex;
+  align-items: center;
+  border: 1px solid gray;
+  background-color: #f2f2f2;
+  .horizontal-center {
+    border: 1px solid green;
+    display: block;
+    margin: 0 auto;
+  }
 }
 
 .icon_inner {
@@ -34,41 +28,19 @@ li {
   margin-left: auto;
   margin-right: auto;
   display: block;
-  // position: absolute;
-  // top: 50%;
-  // -ms-transform: translateY(-50%);
-  // transform: translateY(-50%);
 }
 
 .icon_inner:hover {
   opacity: .6;
 }
 
-// .image {
-//   height: 250px;
-//   width: 300px;
-// }
-
-// .image_background {
-//   background-color: gray;
-//   height: 250px;
-//   width: 300px;
-//   border: 3px solid green;
-//   margin: 0 auto;
-//   position: relative;
-// }
-
 .img_container {
   height: 250px;
   width: 300px;
   background-color: #f2f2f2;
-  // border: 2px solid black;
-  // position: relative;
   border: 1px solid gray;
   vertical-align: middle;
   display: table-cell;
-  // text-align: center;
-  // margin: 0 auto;
 }
 
 .img_bar {
@@ -99,35 +71,20 @@ li {
 }
 
 .comments {
-  border: 1px solid black;
-}
-
-.cont {
-  margin: 0 auto;
-  border: 1px solid gray;
-}
-
-.modal-img-cont {
-  border: 1px solid red;
-}
-
-// modal-img-cont
-.vert {
-  border: 1px solid black;
-  height: 500px;
-  width: 1000px;
-  vertical-align: middle;
-  display: table-cell;
-  img {
-    display: block;
-    margin: 0 auto;
-    // margin-left: auto;
-    // margin-right: auto;
-  }
+  // border: 1px dashed black
+  padding-top: 4px;
+  text-align: center;
+  font-style: italic;
+  color: gray;
+  // margin: 0 -5px;
 }
 
 .modal-com-cont {
-  border: 1px solid black;
+  border: 1px solid gray;
+  // padding: 0;
+  // min-height: 80vh;
+  // height: 100%;
+  // max-height: calc(100vh - 200px);
 }
 
 .grid-container {
@@ -164,26 +121,6 @@ li {
   opacity: 1.0;
   cursor: pointer;
 }
-
-// .username {
-//   clear: both;
-// }
-
-// .FiTrash2Clear::after {
-//   content: ".";
-//   visibility: hidden;
-//   display: block;
-//   height: 0;
-//   clear: both;
-// }
-//
-// .clearfix:after {
-//    content: ".";
-//    visibility: hidden;
-//    display: block;
-//    height: 0;
-//    clear: both;
-// }
 
 .AiFillLike {
   color: #4db8ff;
@@ -310,8 +247,10 @@ img{ max-width:100%;}
 .mesgs {
   float: left;
   padding: 30px 15px 0 25px;
-  border: 1px solid green;
+  // border: 1px solid green;
   width: 100%;
+  margin: 0px;
+  // height: 100%;
 }
 
  .sent_msg p {
@@ -350,11 +289,13 @@ img{ max-width:100%;}
   top: 11px;
   width: 33px;
 }
+.andDisabled {
+  opacity: .6;
+  cursor: default;
+}
 .messaging { padding: 0 0 50px 0;}
 .msg_history {
-  height: 410px;
+  // height: 410px;
+  height: calc(100vh - 307px);
   overflow-y: auto;
-  // display: flex;
-  // flex-direction: column-reverse;
-  // flex-flow: column nowrap;
 }

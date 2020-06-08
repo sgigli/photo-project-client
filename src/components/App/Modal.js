@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { Row, Col } from 'react-bootstrap'
 import Image from 'react-bootstrap/Image'
 import Modal from 'react-bootstrap/Modal'
@@ -12,17 +12,39 @@ const ImageModal = React.forwardRef((props, ref) => {
   const [show, setShow] = useState(false)
   const [message, setMessage] = useState('')
   const [unstyledComments, setUnstyledComments] = useState(props.image.comments)
+  const input = useRef(null)
+  const [focus, setFocus] = useState(false)
 
-  const handleClose = () => setShow(false)
+  const handleClose = () => {
+    setFocus(false)
+    setShow(false)
+  }
+
   React.useImperativeHandle(ref, () => ({
     callHandleShow () {
-      handleShow()
+      handleShowFocus(undefined, 'focus')
     }
   }))
-  const handleShow = () => setShow(true)
-  const handleMessage = (e) => setMessage(e.target.value)
+
+  const handleShowFocus = () => {
+    setShow(true)
+    setFocus(true)
+  }
+
+  const handleShow = (filler, fcs) => {
+    setShow(true)
+    setFocus(false)
+  }
+
+  const handleMessage = (e) => {
+    if (e.target.value) {
+
+    }
+    setMessage(e.target.value)
+  }
 
   const sendComment = (e) => {
+    console.log(input)
     e.preventDefault()
     const comments = [...unstyledComments]
     comments.push(message)
@@ -69,6 +91,12 @@ const ImageModal = React.forwardRef((props, ref) => {
     </div>
   })
 
+  useEffect(() => {
+    if (focus) {
+      input.current.focus()
+    }
+  })
+
   return (
     <div>
       <Image className='icon_inner' src={props.image.fileUrl} onClick={handleShow} thumbnail />
@@ -77,12 +105,10 @@ const ImageModal = React.forwardRef((props, ref) => {
         <Modal.Header closeButton>
         </Modal.Header>
         <Modal.Body>
-          <Row className="show-grid">
+          <Row className="show-grid modal-main-row">
             <Col className="modal-img-cont" xs={8}>
-              <div className="cont">
-                <div className="vert">
-                  <Image src={props.image.fileUrl} className="modal-image"/>
-                </div>
+              <div className="horizontal-center">
+                <Image src={props.image.fileUrl} className="modal-image"/>
               </div>
             </Col>
             <Col className="modal-com-cont">
@@ -91,14 +117,12 @@ const ImageModal = React.forwardRef((props, ref) => {
               </div>
               <div className="mesgs">
                 <div id="history" className="msg_history">
-                  <div>
-                    {styledComments}
-                  </div>
+                  {styledComments}
                 </div>
                 <div className="type_msg">
                   <form id='comment_form' className="input_msg_write" onSubmit={sendComment}>
-                    <input type="text" className="write_msg" placeholder="Type a message" onChange={handleMessage}/>
-                    <button className="msg_send_btn" type="button"><i className="fa fa-paper-plane-o" aria-hidden="true"></i></button>
+                    <input ref={input} type="text" className="write_msg" placeholder="Type a message" onChange={handleMessage} required />
+                    <button onClick={sendComment} className={message ? 'msg_send_btn' : 'msg_send_btn andDisabled'} type="button" ><i className="fa fa-paper-plane-o" aria-hidden="true"></i></button>
                   </form>
                 </div>
               </div>
