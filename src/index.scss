@@ -100,13 +100,25 @@
 
 .upload_bar {
   text-align: center;
-  margin: 20px;
+  // width: 100vw;
+  background-color: #f2f2f2;
+  // height: 50px;
+  padding: 20px;
+  // margin: 20px;
+  margin-bottom: 30px;
   p {
     display: inline-block;
     margin: 0 5px;
     font-style: italic;
     color: gray;
   }
+  .choose {
+    margin-right: 10px;
+  }
+  // button {
+  //   // background-color: #33adff;
+  //   // margin-left: 15px;
+  // }
 }
 
 .FiTrash2 {
@@ -151,6 +163,11 @@
 .FaRegCommentAlt:hover {
   cursor: pointer;
   color: #00802b;
+}
+
+.test {
+  display: inline-block;
+  margin-left: 50px;
 }
 
 // CHAT CSS
