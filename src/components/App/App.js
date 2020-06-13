@@ -16,9 +16,12 @@ class App extends Component {
 
     this.state = {
       user: null,
-      msgAlerts: []
+      msgAlerts: [],
+      file: null
     }
   }
+
+  setFile = file => this.setState({ file })
 
   setUser = user => this.setState({ user })
 
@@ -29,11 +32,13 @@ class App extends Component {
   }
 
   render () {
-    const { msgAlerts, user } = this.state
+    const { msgAlerts, user, file } = this.state
+
+    console.log(file)
 
     return (
       <Fragment>
-        <Header user={user} />
+        <Header user={user} setFile={this.setFile} />
         {msgAlerts.map((msgAlert, index) => (
           <AutoDismissAlert
             key={index}
@@ -42,7 +47,7 @@ class App extends Component {
             message={msgAlert.message}
           />
         ))}
-        <main className="container">
+        <main className="">
           <Route path='/sign-up' render={() => (
             <SignUp msgAlert={this.msgAlert} setUser={this.setUser} />
           )} />
@@ -55,8 +60,10 @@ class App extends Component {
           <AuthenticatedRoute user={user} path='/change-password' render={() => (
             <ChangePassword msgAlert={this.msgAlert} user={user} />
           )} />
+          <AuthenticatedRoute user={user} exact path='/' render={() => (
+            <PhotoUpload user={user} file={file} setFile={this.setFile}/>
+          )} />
         </main>
-        {this.state.user ? <PhotoUpload user={user}/> : ''}
       </Fragment>
     )
   }

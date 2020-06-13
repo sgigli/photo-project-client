@@ -30,8 +30,6 @@ class PhotoUpload extends Component {
   }
 
   triggerFileHandler = (e) => {
-    console.log('test')
-    console.log(this.fileInput.current)
     this.fileInput.current.click()
   }
 
@@ -40,8 +38,28 @@ class PhotoUpload extends Component {
     this.setState({ file: file })
   }
 
-  handleUpload = (e) => {
-    const file = this.state.file
+  // handleUpload = (e) => {
+  //   const file = this.state.file
+  //   const formdata = new FormData()
+  //   formdata.append('file', file)
+  //   formdata.append('owner', this.props.user._id)
+  //
+  //   console.log(formdata)
+  //
+  //   axios({
+  //     url: apiUrl + '/uploads',
+  //     method: 'POST',
+  //     data: formdata
+  //   })
+  //     .then(() => {
+  //       this.handleGetImages()
+  //       this.fileInput.current.value = null
+  //     })
+  // }
+
+  handleUpload = (file) => {
+    console.log('test', file)
+    // const file = this.state.file
     const formdata = new FormData()
     formdata.append('file', file)
     formdata.append('owner', this.props.user._id)
@@ -56,6 +74,7 @@ class PhotoUpload extends Component {
       .then(() => {
         this.handleGetImages()
         this.fileInput.current.value = null
+        this.props.setFile(null)
       })
   }
 
@@ -104,16 +123,18 @@ class PhotoUpload extends Component {
   }
 
   componentDidMount () {
+    console.log(this.props.file)
+    if (this.props.file) {
+      this.handleUpload(this.props.file)
+    }
     this.handleGetImages()
   }
 
-  // <div className="FiTrash2Clear">
-  //   <FiTrash2 onClick={this.handleDelete} id={img._id} className="FiTrash2"/>
-  // </div>
-
-  // <FiTrash2 onClick={this.handleDelete} id={img._id} className="FiTrash2"/>
-
   render () {
+    if (this.props.file) {
+      this.handleUpload(this.props.file)
+    }
+
     const images = this.state.images.map((img, index) => {
       // find index of user id in likes array
       const idIndex = img.likes.indexOf(this.props.user._id)
@@ -141,7 +162,7 @@ class PhotoUpload extends Component {
         <div className={this.state.file ? 'upload_bar' : 'upload_bar hide_file_field'}>
           <input ref={this.fileInput} type="file" id="myfile" name="myfile" style={{ display: 'none' }} onChange={(e) =>
             this.handleFile(e)} />
-          <button className='.btn btn-primary' onClick={this.triggerFileHandler}>Choose photo</button>
+          <button className='.btn btn-primary choose' onClick={this.triggerFileHandler}>Choose photo</button>
           {!this.state.file ? '' : <p>{this.state.file.name}</p>}
           <button type='button' className='.btn btn-default' disabled={this.state.file ? '' : 'disabled'} onClick={(e) => this.handleUpload(e)}>Upload</button>
         </div>
