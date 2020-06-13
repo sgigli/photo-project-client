@@ -4,16 +4,25 @@ import Image from 'react-bootstrap/Image'
 import Modal from 'react-bootstrap/Modal'
 import apiUrl from '../../apiConfig'
 import axios from 'axios'
-// import { Button } from 'react-bootstrap-buttons'
-// import { render } from 'react-dom'
-// function ImageModal (props)
+import socketIOClient from 'socket.io-client'
+
+const socket = socketIOClient(apiUrl)
+
+// socket.on()
+// socket.emit('test', 'message')
 
 const ImageModal = React.forwardRef((props, ref) => {
   const [show, setShow] = useState(false)
   const [message, setMessage] = useState('')
-  const [unstyledComments, setUnstyledComments] = useState(props.image.comments)
+  const [unstyledComments, setUnstyledComments] = useState([])
   const input = useRef(null)
+  const history = useRef(null)
+  const commentForm = useRef(null)
   const [focus, setFocus] = useState(false)
+
+  // socket.on('refresh-comments', () => {
+  //   getImage()
+  // })
 
   const handleClose = () => {
     setFocus(false)
@@ -22,7 +31,7 @@ const ImageModal = React.forwardRef((props, ref) => {
 
   React.useImperativeHandle(ref, () => ({
     callHandleShow () {
-      handleShowFocus(undefined, 'focus')
+      handleShowFocus()
     }
   }))
 
@@ -60,6 +69,7 @@ const ImageModal = React.forwardRef((props, ref) => {
     })
       .then(res => {
         console.log(res)
+        socket.emit('send-message', props.image._id)
         getImage()
       })
       .catch(console.error)
@@ -72,8 +82,8 @@ const ImageModal = React.forwardRef((props, ref) => {
     })
       .then(res => {
         setUnstyledComments(res.data.upload.comments)
-        document.getElementById('comment_form').reset()
-        const element = document.getElementById('history')
+        commentForm.current.reset()
+        const element = history.current
         element.scrollTop = element.scrollHeight
       })
       .catch(console.error)
@@ -95,8 +105,18 @@ const ImageModal = React.forwardRef((props, ref) => {
     if (focus) {
       input.current.focus()
     }
-  })
+    // socket.emit('join', props.image._id)
+    socket.on('refresh-comments', (id) => {
+      if (props.image._id.toString() === id) {
+        getImage()
+      }
+    })
 
+    setUnstyledComments(props.image.comments)
+  }, [])
+
+  // console.log(props.image)
+  // setUnstyledComments(props.image.comments)
   return (
     <div>
       <Image className='icon_inner' src={props.image.fileUrl} onClick={handleShow} thumbnail />
@@ -116,11 +136,11 @@ const ImageModal = React.forwardRef((props, ref) => {
                 Comments
               </div>
               <div className="mesgs">
-                <div id="history" className="msg_history">
+                <div ref={history} id="history" className="msg_history">
                   {styledComments}
                 </div>
                 <div className="type_msg">
-                  <form id='comment_form' className="input_msg_write" onSubmit={sendComment}>
+                  <form ref={commentForm} id='comment_form' className="input_msg_write" onSubmit={sendComment}>
                     <input ref={input} type="text" className="write_msg" placeholder="Type a message" onChange={handleMessage} required />
                     <button onClick={sendComment} className={message ? 'msg_send_btn' : 'msg_send_btn andDisabled'} type="button" ><i className="fa fa-paper-plane-o" aria-hidden="true"></i></button>
                   </form>

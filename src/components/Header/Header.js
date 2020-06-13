@@ -46,11 +46,11 @@ const Header = ({ user, setFile }) => {
   return (
     <Navbar bg="primary" variant="dark" expand="md">
       <Navbar.Brand href="#">
-        Photo Project
+        Photo Book
         { user &&
           <span>
             <input ref={fileInput} type="file" id="myfile" name="myfile" style={{ display: 'none' }} onChange={handleFile} />
-            <button className='btn btn-primary' onClick={triggerFileHandler}>Choose photo</button>
+            <button className='btn btn-primary choose' onClick={triggerFileHandler}>Choose photo</button>
             <button className='btn btn-primary' onClick={sendFile} disabled={ image ? '' : 'disabled' }>Upload</button>
           </span>
         }
