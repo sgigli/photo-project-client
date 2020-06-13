@@ -11,6 +11,8 @@ const socket = socketIOClient(apiUrl)
 // socket.on()
 // socket.emit('test', 'message')
 
+console.log('test change')
+
 const ImageModal = React.forwardRef((props, ref) => {
   const [show, setShow] = useState(false)
   const [message, setMessage] = useState('')
