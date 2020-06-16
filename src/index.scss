@@ -68,6 +68,15 @@ main {
   margin: 0 auto;
 }
 
+.plane_disabled {
+  // cursor: default;
+  pointer-events: none;
+}
+
+// .plane_disabled: {
+//   cursor: default;
+// }
+
 .hide_file_field {
   input[type=file] {
     color: transparent;
@@ -316,7 +325,7 @@ img{ max-width:100%;}
 }
 .andDisabled {
   opacity: .6;
-  cursor: default;
+  pointer-events: none;
 }
 .messaging { padding: 0 0 50px 0;}
 .msg_history {

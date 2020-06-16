@@ -2,9 +2,6 @@ import React, { Component } from 'react'
 import apiUrl from '../../apiConfig'
 import axios from 'axios'
 import Grid from 'react-css-grid'
-import { FiTrash2 } from 'react-icons/fi'
-import { FaRegCommentAlt } from 'react-icons/fa'
-import { AiFillLike } from 'react-icons/ai'
 import ImageModal from './Modal'
 
 class PhotoUpload extends Component {
@@ -14,10 +11,10 @@ class PhotoUpload extends Component {
       file: null,
       images: []
     }
-    this.fileInput = React.createRef()
-    this.refArray = []
   }
 
+  // this.fileInput = React.createRef()
+  // this.refArray = []
   // this.trackRefs = []
 
   // setRef = (ref) => {
@@ -26,12 +23,12 @@ class PhotoUpload extends Component {
   //   this.setState({ refArray: [...this.state.refArray, ref] })
   // }
 
-  setRefs = () => {
-    // const array = Array(this.state.images.length).fill().map((_, i) => React.createRef())
-    this.setState({ refArray: Array(this.state.images.length).fill(React.createRef) })
-    console.log(this.state.refArray)
-    console.log(this.state.refArray[0].current)
-  }
+  // setRefs = () => {
+  //   // const array = Array(this.state.images.length).fill().map((_, i) => React.createRef())
+  //   this.setState({ refArray: Array(this.state.images.length).fill(React.createRef) })
+  //   console.log(this.state.refArray)
+  //   console.log(this.state.refArray[0].current)
+  // }
 
   handleUpload = (file) => {
     const formdata = new FormData()
@@ -70,15 +67,17 @@ class PhotoUpload extends Component {
     })
       .then(() => {
         this.handleGetImages()
-        this.refArray.splice(index, 1)
+        // this.refArray.splice(index, 1)
       })
   }
 
-  handleLike = (id, index, likes) => {
-    if (index === -1) {
+  handleLike = (image, idIndex) => {
+    const id = image._id
+    let likes = image.likes
+    if (idIndex === -1) {
       likes = likes.concat(this.props.user._id)
     } else {
-      likes.splice(index, 1)
+      likes.splice(idIndex, 1)
     }
 
     axios({
@@ -100,7 +99,6 @@ class PhotoUpload extends Component {
       this.handleUpload(this.props.file)
     }
     this.handleGetImages()
-    // this.setRefs()
   }
 
   render () {
@@ -108,31 +106,17 @@ class PhotoUpload extends Component {
       this.handleUpload(this.props.file)
     }
 
-    console.log(this.refArray)
-    // console.log(this.state.refArray[0].current)
-
-    const images = this.state.images.map((img, index) => {
-      // find index of user id in likes array
-      const idIndex = img.likes.indexOf(this.props.user._id)
-
-      return (
-        <div className="grid_cell" key={index}>
-          <div className='img_container' >
-            <ImageModal ref={ (ref) => { this.refArray[index] = ref } } className='icon' image={img} />
-          </div>
-          <div className='img_bar'>
-            <AiFillLike id={img._id} data-index={index} onClick={() => this.handleLike(img._id, idIndex, img.likes)}
-              className={idIndex !== -1 ? 'AiFillLike-LikedByUser' : 'AiFillLike' }/>
-            <p className='bar_info'>{img.likes.length}</p>
-            <FaRegCommentAlt className='FaRegCommentAlt' onClick={() => this.refArray[index].callHandleShow()}/>
-            <p className='bar_info'>{img.comments.length}</p>
-            {img.owner._id === this.props.user._id ? <FiTrash2 onClick={() => this.handleDelete(img._id, index)} id={img._id} data-index={index} className="FiTrash2"/> : ''}
-            <div style={{ clear: 'both' }}></div>
-            <p className='username'>posted by {img.owner.username}</p>
-          </div>
-        </div>
-      )
+    const images = this.state.images.map((image, index) => {
+      return <ImageModal
+        key={index}
+        image={image}
+        user={this.props.user}
+        handleLike={this.handleLike}
+        handleDelete={this.handleDelete}
+        handleGetImages={this.handleGetImages}
+      />
     })
+
     return (
       <main>
         <Grid width={300} justify-items='center'>{images}</Grid>
@@ -142,3 +126,26 @@ class PhotoUpload extends Component {
 }
 
 export default PhotoUpload
+
+// const images = this.state.images.map((img, index) => {
+//   // find index of user id in likes array
+//   const idIndex = img.likes.indexOf(this.props.user._id)
+//
+//   return (
+//     <div className="grid_cell" key={index}>
+//       <div className='img_container' >
+//         <ImageModal ref={ (ref) => { this.refArray[index] = ref } } className='icon' image={img} />
+//       </div>
+//       <div className='img_bar'>
+//         <AiFillLike id={img._id} data-index={index} onClick={() => this.handleLike(img._id, idIndex, img.likes)}
+//           className={idIndex !== -1 ? 'AiFillLike-LikedByUser' : 'AiFillLike' }/>
+//         <p className='bar_info'>{img.likes.length}</p>
+//         <FaRegCommentAlt className='FaRegCommentAlt' onClick={() => this.refArray[index].callHandleShow()}/>
+//         <p className='bar_info'>{img.comments.length}</p>
+//         {img.owner._id === this.props.user._id ? <FiTrash2 onClick={() => this.handleDelete(img._id, index)} id={img._id} data-index={index} className="FiTrash2"/> : ''}
+//         <div style={{ clear: 'both' }}></div>
+//         <p className='username'>posted by {img.owner.username}</p>
+//       </div>
+//     </div>
+//   )
+// })

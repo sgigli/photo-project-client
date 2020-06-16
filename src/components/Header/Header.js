@@ -18,7 +18,7 @@ const unauthenticatedOptions = (
 
 const alwaysOptions = (
   <Fragment>
-    <Nav.Link href="#/">Home</Nav.Link>
+    <Nav.Link href="#/" >Home</Nav.Link>
   </Fragment>
 )
 
@@ -27,12 +27,10 @@ const Header = ({ user, setFile }) => {
   const [image, setImage] = useState(null)
 
   const triggerFileHandler = (e) => {
-    console.log('test')
     fileInput.current.click()
   }
 
   const handleFile = (e) => {
-    console.log(e.target.files[0])
     const img = e.target.files[0]
     setImage(img)
   }
