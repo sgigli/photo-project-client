@@ -1,6 +1,6 @@
 {
   "name": "photo-project-client",
-  "homepage": "https://<USERNAME>.github.io/<REPO NAME>",
+  "homepage": "https://sgigli.github.io/photo-project-client",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
