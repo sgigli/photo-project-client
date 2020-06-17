@@ -10,7 +10,7 @@ import axios from 'axios'
 import socketIOClient from 'socket.io-client'
 import dateFormat from 'dateformat'
 
-const socket = socketIOClient(apiUrl)
+const socket = socketIOClient(apiUrl, { transport: ['websocket'] })
 
 const ImageModal = (props) => {
   const [show, setShow] = useState(false)
