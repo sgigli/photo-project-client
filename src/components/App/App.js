@@ -34,11 +34,9 @@ class App extends Component {
   render () {
     const { msgAlerts, user, file } = this.state
 
-    console.log(file)
-
     return (
       <Fragment>
-        <Header user={user} setFile={this.setFile} />
+        <Header user={user} setFile={this.setFile} setUser={this.setUser} msgAlert={this.msgAlert}/>
         {msgAlerts.map((msgAlert, index) => (
           <AutoDismissAlert
             key={index}

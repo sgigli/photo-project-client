@@ -2,49 +2,47 @@ import React, { useState, useRef, useEffect } from 'react'
 import { Row, Col } from 'react-bootstrap'
 import Image from 'react-bootstrap/Image'
 import Modal from 'react-bootstrap/Modal'
+import { FiTrash2 } from 'react-icons/fi'
+import { FaRegCommentAlt } from 'react-icons/fa'
+import { AiFillLike } from 'react-icons/ai'
 import apiUrl from '../../apiConfig'
 import axios from 'axios'
-// import { Button } from 'react-bootstrap-buttons'
-// import { render } from 'react-dom'
-// function ImageModal (props)
+import socketIOClient from 'socket.io-client'
+import dateFormat from 'dateformat'
 
-const ImageModal = React.forwardRef((props, ref) => {
+const socket = socketIOClient(apiUrl)
+
+const ImageModal = (props) => {
   const [show, setShow] = useState(false)
   const [message, setMessage] = useState('')
-  const [unstyledComments, setUnstyledComments] = useState(props.image.comments)
-  const input = useRef(null)
   const [focus, setFocus] = useState(false)
+  const [unstyledComments, setUnstyledComments] = useState([])
+  const input = useRef(null)
+  const history = useRef(null)
+  const commentForm = useRef(null)
 
   const handleClose = () => {
-    setFocus(false)
+    if (focus) { setFocus(false) }
     setShow(false)
+    props.handleGetImages()
   }
 
-  React.useImperativeHandle(ref, () => ({
-    callHandleShow () {
-      handleShowFocus(undefined, 'focus')
-    }
-  }))
-
   const handleShowFocus = () => {
+    setUnstyledComments(props.image.comments)
     setShow(true)
     setFocus(true)
   }
 
   const handleShow = (filler, fcs) => {
+    setUnstyledComments(props.image.comments)
     setShow(true)
-    setFocus(false)
   }
 
   const handleMessage = (e) => {
-    if (e.target.value) {
-
-    }
     setMessage(e.target.value)
   }
 
   const sendComment = (e) => {
-    console.log(input)
     e.preventDefault()
     const comments = [...unstyledComments]
     comments.push(message)
@@ -52,14 +50,18 @@ const ImageModal = React.forwardRef((props, ref) => {
     axios({
       url: apiUrl + '/uploads/' + props.image._id,
       method: 'PATCH',
+      headers: {
+        'Authorization': `Token token=${props.user.token}`
+      },
       data: {
         upload: {
-          comments: comments
+          comment: message,
+          owner: props.user._id
         }
       }
     })
       .then(res => {
-        console.log(res)
+        socket.emit('send-message', props.image._id)
         getImage()
       })
       .catch(console.error)
@@ -72,24 +74,29 @@ const ImageModal = React.forwardRef((props, ref) => {
     })
       .then(res => {
         setUnstyledComments(res.data.upload.comments)
-        document.getElementById('comment_form').reset()
-        const element = document.getElementById('history')
+        setMessage('')
+        commentForm.current.reset()
+        const element = history.current
         element.scrollTop = element.scrollHeight
       })
       .catch(console.error)
   }
 
   const styledComments = unstyledComments.map((comment, index) => {
+    const time = dateFormat(comment.date, 'h:MM TT')
+    const day = dateFormat(comment.date, 'mmmm d')
+
     return <div key={index} className="incoming_msg">
-      <div className="incoming_msg_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil" /> </div>
       <div className="received_msg">
         <div className="received_withd_msg">
-          <p>{comment}</p>
-          <span className="time_date"> 11:01 AM    |    June 9</span>
+          <p>{comment.text}</p>
+          <span className="time_date"> {comment.owner.username} | {time} | {day}</span>
         </div>
       </div>
     </div>
   })
+
+  const idIndex = props.image.likes.indexOf(props.user._id)
 
   useEffect(() => {
     if (focus) {
@@ -97,9 +104,28 @@ const ImageModal = React.forwardRef((props, ref) => {
     }
   })
 
+  useEffect(() => {
+    socket.on('refresh-comments', (id) => {
+      if (props.image._id.toString() === id) {
+        getImage()
+      }
+    })
+  }, [])
+
   return (
-    <div>
-      <Image className='icon_inner' src={props.image.fileUrl} onClick={handleShow} thumbnail />
+    <div className="grid_cell">
+      <div className='img_container' >
+        <Image className='icon_inner' src={props.image.fileUrl} onClick={handleShow} thumbnail />
+      </div>
+      <div className='img_bar'>
+        <AiFillLike className={idIndex !== -1 ? 'AiFillLike-LikedByUser' : 'AiFillLike' } onClick={() => props.handleLike(props.image._id, idIndex) }/>
+        <p className='bar_info'>{props.image.likes.length}</p>
+        <FaRegCommentAlt className='FaRegCommentAlt' onClick={handleShowFocus}/>
+        <p className='bar_info'>{props.image.comments.length}</p>
+        {props.image.owner._id === props.user._id ? <FiTrash2 onClick={() => props.handleDelete(props.image._id)} className="FiTrash2"/> : ''}
+        <div style={{ clear: 'both' }}></div>
+        <p className='username'>posted by {props.image.owner.username}</p>
+      </div>
 
       <Modal dialogClassName='modal-90w' show={show} onHide={handleClose}>
         <Modal.Header closeButton>
@@ -116,13 +142,13 @@ const ImageModal = React.forwardRef((props, ref) => {
                 Comments
               </div>
               <div className="mesgs">
-                <div id="history" className="msg_history">
+                <div ref={history} id="history" className="msg_history">
                   {styledComments}
                 </div>
                 <div className="type_msg">
-                  <form id='comment_form' className="input_msg_write" onSubmit={sendComment}>
+                  <form ref={commentForm} id='comment_form' className="input_msg_write" onSubmit={sendComment}>
                     <input ref={input} type="text" className="write_msg" placeholder="Type a message" onChange={handleMessage} required />
-                    <button onClick={sendComment} className={message ? 'msg_send_btn' : 'msg_send_btn andDisabled'} type="button" ><i className="fa fa-paper-plane-o" aria-hidden="true"></i></button>
+                    <button onClick={sendComment} className={message ? 'msg_send_btn' : 'msg_send_btn andDisabled'} type="button" ><i className='fa fa-paper-plane-o' aria-hidden="true"></i></button>
                   </form>
                 </div>
               </div>
@@ -134,8 +160,6 @@ const ImageModal = React.forwardRef((props, ref) => {
       </Modal>
     </div>
   )
-})
-
-ImageModal.displayName = 'ImageModal'
+}
 
 export default ImageModal
