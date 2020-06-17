@@ -28,6 +28,7 @@ const ImageModal = (props) => {
   }
 
   const handleShowFocus = () => {
+    setUnstyledComments(props.image.comments)
     setShow(true)
     setFocus(true)
   }
@@ -72,7 +73,6 @@ const ImageModal = (props) => {
       method: 'GET'
     })
       .then(res => {
-        console.log(res.data.upload)
         setUnstyledComments(res.data.upload.comments)
         setMessage('')
         commentForm.current.reset()

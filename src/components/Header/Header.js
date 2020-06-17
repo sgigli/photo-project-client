@@ -1,28 +1,10 @@
 import React, { Fragment, useRef, useState } from 'react'
 import Nav from 'react-bootstrap/Nav'
 import Navbar from 'react-bootstrap/Navbar'
+import { signIn } from '../../api/auth'
+import messages from '../AutoDismissAlert/messages'
 
-const authenticatedOptions = (
-  <Fragment>
-    <Nav.Link href="#change-password">Change Password</Nav.Link>
-    <Nav.Link href="#sign-out">Sign Out</Nav.Link>
-  </Fragment>
-)
-
-const unauthenticatedOptions = (
-  <Fragment>
-    <Nav.Link href="#sign-up">Sign Up</Nav.Link>
-    <Nav.Link href="#sign-in">Sign In</Nav.Link>
-  </Fragment>
-)
-
-const alwaysOptions = (
-  <Fragment>
-    <Nav.Link href="#/" >Home</Nav.Link>
-  </Fragment>
-)
-
-const Header = ({ user, setFile }) => {
+const Header = ({ user, setFile, setUser, msgAlert, history }) => {
   const fileInput = useRef(null)
   const [image, setImage] = useState(null)
 
@@ -41,6 +23,46 @@ const Header = ({ user, setFile }) => {
     fileInput.current.value = null
   }
 
+  const onDemoSignIn = (e) => {
+    e.preventDefault()
+
+    signIn(demoCredentials)
+      .then(res => setUser(res.data.user))
+      .then(() => msgAlert({
+        heading: 'Sign In Success',
+        message: messages.signInSuccess,
+        variant: 'success'
+      }))
+      .catch(error => {
+        msgAlert({
+          heading: 'Sign In Failed with error: ' + error.message,
+          message: messages.signInFailure,
+          variant: 'danger'
+        })
+      })
+  }
+
+  const demoCredentials = {
+    email: 'roger-federer@aol.com',
+    password: 'FedExpress123'
+  }
+
+  const authenticatedOptions = (
+    <Fragment>
+      <Nav.Link href="#/">Home</Nav.Link>
+      <Nav.Link href="#change-password">Change Password</Nav.Link>
+      <Nav.Link href="#sign-out">Sign Out</Nav.Link>
+    </Fragment>
+  )
+
+  const unauthenticatedOptions = (
+    <Fragment>
+      <button className="btn btn-primary demo" onClick={onDemoSignIn}>Demo</button>
+      <Nav.Link href="#sign-up">Sign Up</Nav.Link>
+      <Nav.Link href="#sign-in">Sign In</Nav.Link>
+    </Fragment>
+  )
+
   return (
     <Navbar bg="primary" variant="dark" expand="md">
       <Navbar.Brand href="#">
@@ -56,8 +78,7 @@ const Header = ({ user, setFile }) => {
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="ml-auto">
-          { user && <span className="navbar-text mr-2">Welcome, {user.email}</span>}
-          { alwaysOptions }
+          { user && <span className="navbar-text mr-2">Welcome, {user.username}</span>}
           { user ? authenticatedOptions : unauthenticatedOptions }
         </Nav>
       </Navbar.Collapse>

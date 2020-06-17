@@ -36,7 +36,7 @@ class App extends Component {
 
     return (
       <Fragment>
-        <Header user={user} setFile={this.setFile} />
+        <Header user={user} setFile={this.setFile} setUser={this.setUser} msgAlert={this.msgAlert}/>
         {msgAlerts.map((msgAlert, index) => (
           <AutoDismissAlert
             key={index}

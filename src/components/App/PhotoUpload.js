@@ -42,25 +42,16 @@ class PhotoUpload extends Component {
   }
 
   handleDelete = (id, index) => {
-    console.log(index)
     axios({
       url: apiUrl + '/uploads/' + id,
       method: 'DELETE'
     })
       .then(() => {
         this.handleGetImages()
-        // this.refArray.splice(index, 1)
       })
   }
 
   handleLike = (imageId, idIndex) => {
-    // if (idIndex === -1) {
-    //   liked = likes.concat(this.props.user._id)
-    // } else {
-    //   likes.splice(idIndex, 1)
-    // }
-    // const liked = idIndex === -1
-
     axios({
       url: apiUrl + '/uploads/' + imageId,
       method: 'PATCH',

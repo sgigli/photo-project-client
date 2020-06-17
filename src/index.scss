@@ -4,6 +4,15 @@ main {
   margin: 40px 30px 0px 30px;
 }
 
+.demo {
+  background-color: green;
+  margin-right: 13px;
+}
+
+.demo:hover {
+  background-color: green;
+}
+
 .modal-90w {
   min-width: 90%;
 }
@@ -69,13 +78,8 @@ main {
 }
 
 .plane_disabled {
-  // cursor: default;
   pointer-events: none;
 }
-
-// .plane_disabled: {
-//   cursor: default;
-// }
 
 .hide_file_field {
   input[type=file] {
@@ -88,20 +92,14 @@ main {
 }
 
 .comments {
-  // border: 1px dashed black
   padding-top: 4px;
   text-align: center;
   font-style: italic;
   color: gray;
-  // margin: 0 -5px;
 }
 
 .modal-com-cont {
   border: 1px solid gray;
-  // padding: 0;
-  // min-height: 80vh;
-  // height: 100%;
-  // max-height: calc(100vh - 200px);
 }
 
 .grid-container {
@@ -117,11 +115,8 @@ main {
 
 .upload_bar {
   text-align: center;
-  // width: 100vw;
   background-color: #f2f2f2;
-  // height: 50px;
   padding: 20px;
-  // margin: 20px;
   margin-bottom: 30px;
   p {
     display: inline-block;
@@ -132,10 +127,6 @@ main {
   .choose {
     margin-right: 10px;
   }
-  // button {
-  //   // background-color: #33adff;
-  //   // margin-left: 15px;
-  // }
 }
 
 .FiTrash2 {
@@ -210,7 +201,6 @@ img{ max-width:100%;}
   display: inline-block;
   text-align: right;
   width: 60%;
-  // padding:
 }
 .headind_srch{ padding:10px 29px 10px 20px; overflow:hidden; border-bottom:1px solid #c4c4c4;}
 
@@ -281,10 +271,8 @@ img{ max-width:100%;}
 .mesgs {
   float: left;
   padding: 30px 15px 0 25px;
-  // border: 1px solid green;
   width: 100%;
   margin: 0px;
-  // height: 100%;
 }
 
  .sent_msg p {
