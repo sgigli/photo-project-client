@@ -13,23 +13,6 @@ class PhotoUpload extends Component {
     }
   }
 
-  // this.fileInput = React.createRef()
-  // this.refArray = []
-  // this.trackRefs = []
-
-  // setRef = (ref) => {
-  //   // this.trackRefs.push(ref)
-  //   // console.log(this.trackRefs)
-  //   this.setState({ refArray: [...this.state.refArray, ref] })
-  // }
-
-  // setRefs = () => {
-  //   // const array = Array(this.state.images.length).fill().map((_, i) => React.createRef())
-  //   this.setState({ refArray: Array(this.state.images.length).fill(React.createRef) })
-  //   console.log(this.state.refArray)
-  //   console.log(this.state.refArray[0].current)
-  // }
-
   handleUpload = (file) => {
     const formdata = new FormData()
     formdata.append('file', file)
@@ -54,7 +37,6 @@ class PhotoUpload extends Component {
       .then(res => {
         const images = res.data.uploads
         this.setState({ file: null, images: images })
-        // this.setRefs()
       })
       .catch(console.error)
   }
@@ -71,21 +53,23 @@ class PhotoUpload extends Component {
       })
   }
 
-  handleLike = (image, idIndex) => {
-    const id = image._id
-    let likes = image.likes
-    if (idIndex === -1) {
-      likes = likes.concat(this.props.user._id)
-    } else {
-      likes.splice(idIndex, 1)
-    }
+  handleLike = (imageId, idIndex) => {
+    // if (idIndex === -1) {
+    //   liked = likes.concat(this.props.user._id)
+    // } else {
+    //   likes.splice(idIndex, 1)
+    // }
+    // const liked = idIndex === -1
 
     axios({
-      url: apiUrl + '/uploads/' + id,
+      url: apiUrl + '/uploads/' + imageId,
       method: 'PATCH',
+      headers: {
+        'Authorization': `Token token=${this.props.user.token}`
+      },
       data: {
         'upload': {
-          'likes': likes
+          'likeIdIndex': idIndex
         }
       }
     })
@@ -126,26 +110,3 @@ class PhotoUpload extends Component {
 }
 
 export default PhotoUpload
-
-// const images = this.state.images.map((img, index) => {
-//   // find index of user id in likes array
-//   const idIndex = img.likes.indexOf(this.props.user._id)
-//
-//   return (
-//     <div className="grid_cell" key={index}>
-//       <div className='img_container' >
-//         <ImageModal ref={ (ref) => { this.refArray[index] = ref } } className='icon' image={img} />
-//       </div>
-//       <div className='img_bar'>
-//         <AiFillLike id={img._id} data-index={index} onClick={() => this.handleLike(img._id, idIndex, img.likes)}
-//           className={idIndex !== -1 ? 'AiFillLike-LikedByUser' : 'AiFillLike' }/>
-//         <p className='bar_info'>{img.likes.length}</p>
-//         <FaRegCommentAlt className='FaRegCommentAlt' onClick={() => this.refArray[index].callHandleShow()}/>
-//         <p className='bar_info'>{img.comments.length}</p>
-//         {img.owner._id === this.props.user._id ? <FiTrash2 onClick={() => this.handleDelete(img._id, index)} id={img._id} data-index={index} className="FiTrash2"/> : ''}
-//         <div style={{ clear: 'both' }}></div>
-//         <p className='username'>posted by {img.owner.username}</p>
-//       </div>
-//     </div>
-//   )
-// })

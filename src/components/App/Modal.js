@@ -8,6 +8,7 @@ import { AiFillLike } from 'react-icons/ai'
 import apiUrl from '../../apiConfig'
 import axios from 'axios'
 import socketIOClient from 'socket.io-client'
+import dateFormat from 'dateformat'
 
 const socket = socketIOClient(apiUrl)
 
@@ -48,9 +49,13 @@ const ImageModal = (props) => {
     axios({
       url: apiUrl + '/uploads/' + props.image._id,
       method: 'PATCH',
+      headers: {
+        'Authorization': `Token token=${props.user.token}`
+      },
       data: {
         upload: {
-          comments: comments
+          comment: message,
+          owner: props.user._id
         }
       }
     })
@@ -78,12 +83,14 @@ const ImageModal = (props) => {
   }
 
   const styledComments = unstyledComments.map((comment, index) => {
+    const time = dateFormat(comment.date, 'h:MM TT')
+    const day = dateFormat(comment.date, 'mmmm d')
+
     return <div key={index} className="incoming_msg">
-      <div className="incoming_msg_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil" /> </div>
       <div className="received_msg">
         <div className="received_withd_msg">
-          <p>{comment}</p>
-          <span className="time_date"> 11:01 AM    |    June 9</span>
+          <p>{comment.text}</p>
+          <span className="time_date"> {comment.owner.username} | {time} | {day}</span>
         </div>
       </div>
     </div>
@@ -111,7 +118,7 @@ const ImageModal = (props) => {
         <Image className='icon_inner' src={props.image.fileUrl} onClick={handleShow} thumbnail />
       </div>
       <div className='img_bar'>
-        <AiFillLike className={idIndex !== -1 ? 'AiFillLike-LikedByUser' : 'AiFillLike' } onClick={() => props.handleLike(props.image, idIndex) }/>
+        <AiFillLike className={idIndex !== -1 ? 'AiFillLike-LikedByUser' : 'AiFillLike' } onClick={() => props.handleLike(props.image._id, idIndex) }/>
         <p className='bar_info'>{props.image.likes.length}</p>
         <FaRegCommentAlt className='FaRegCommentAlt' onClick={handleShowFocus}/>
         <p className='bar_info'>{props.image.comments.length}</p>
@@ -156,58 +163,3 @@ const ImageModal = (props) => {
 }
 
 export default ImageModal
-
-// const image = props.images.map((img, index) => {
-//   // find index of user id in likes array
-//   const idIndex = img.likes.indexOf(this.props.user._id)
-//
-//   return (
-//     <div className="grid_cell" key={index}>
-//       <div className='img_container' >
-//         <Image className='icon_inner' src={props.images[index].fileUrl} onClick={handleShow} thumbnail />
-//       </div>
-//       <div className='img_bar'>
-//         <AiFillLike id={img._id} data-index={index} onClick={() => this.handleLike(img._id, idIndex, img.likes)}
-//           className={idIndex !== -1 ? 'AiFillLike-LikedByUser' : 'AiFillLike' }/>
-//         <p className='bar_info'>{img.likes.length}</p>
-//         <FaRegCommentAlt className='FaRegCommentAlt' onClick={() => this.refArray[index].callHandleShow()}/>
-//         <p className='bar_info'>{img.comments.length}</p>
-//         {img.owner._id === this.props.user._id ? <FiTrash2 onClick={() => this.handleDelete(img._id, index)} id={img._id} data-index={index} className="FiTrash2"/> : ''}
-//         <div style={{ clear: 'both' }}></div>
-//         <p className='username'>posted by {img.owner.username}</p>
-//       </div>
-//
-//       <Modal dialogClassName='modal-90w' show={show} onHide={handleClose}>
-//         <Modal.Header closeButton>
-//         </Modal.Header>
-//         <Modal.Body>
-//           <Row className="show-grid modal-main-row">
-//             <Col className="modal-img-cont" xs={8}>
-//               <div className="horizontal-center">
-//                 <Image src={props.images[index].fileUrl} className="modal-image"/>
-//               </div>
-//             </Col>
-//             <Col className="modal-com-cont">
-//               <div className="comments">
-//                 Comments
-//               </div>
-//               <div className="mesgs">
-//                 <div ref={history} id="history" className="msg_history">
-//                   {styledComments}
-//                 </div>
-//                 <div className="type_msg">
-//                   <form ref={commentForm} id='comment_form' className="input_msg_write" onSubmit={sendComment}>
-//                     <input ref={input} type="text" className="write_msg" placeholder="Type a message" onChange={handleMessage} required />
-//                     <button onClick={sendComment} className={message ? 'msg_send_btn' : 'msg_send_btn andDisabled'} type="button" ><i className="fa fa-paper-plane-o" aria-hidden="true"></i></button>
-//                   </form>
-//                 </div>
-//               </div>
-//             </Col>
-//           </Row>
-//         </Modal.Body>
-//         <Modal.Footer>
-//         </Modal.Footer>
-//       </Modal>
-//     </div>
-//   )
-// })
