@@ -66,7 +66,7 @@ const Header = ({ user, setFile, setUser, msgAlert, history }) => {
   return (
     <Navbar bg="primary" variant="dark" expand="md">
       <Navbar.Brand href="#">
-        Photo Book
+        Photopia
         { user &&
           <span>
             <input ref={fileInput} type="file" id="myfile" name="myfile" style={{ display: 'none' }} onChange={handleFile} />
