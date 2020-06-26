@@ -3,6 +3,9 @@ import apiUrl from '../../apiConfig'
 import axios from 'axios'
 import Grid from 'react-css-grid'
 import ImageModal from './Modal'
+import socketIOClient from 'socket.io-client'
+
+const socket = socketIOClient(apiUrl)
 
 class PhotoUpload extends Component {
   constructor (props) {
@@ -11,6 +14,10 @@ class PhotoUpload extends Component {
       file: null,
       images: []
     }
+  }
+
+  handleSocketEmitRefreshImages = () => {
+    socket.emit('update-action', 'update')
   }
 
   handleUpload = (file) => {
@@ -24,8 +31,8 @@ class PhotoUpload extends Component {
       data: formdata
     })
       .then(() => {
-        this.handleGetImages()
         this.props.setFile(null)
+        socket.emit('update-action', 'update')
       })
   }
 
@@ -47,7 +54,7 @@ class PhotoUpload extends Component {
       method: 'DELETE'
     })
       .then(() => {
-        this.handleGetImages()
+        socket.emit('update-action', 'update')
       })
   }
 
@@ -65,7 +72,7 @@ class PhotoUpload extends Component {
       }
     })
       .then(() => {
-        this.handleGetImages()
+        socket.emit('update-action', 'refresh')
       })
   }
 
@@ -74,6 +81,9 @@ class PhotoUpload extends Component {
       this.handleUpload(this.props.file)
     }
     this.handleGetImages()
+    socket.on('refresh-images', () => {
+      this.handleGetImages()
+    })
   }
 
   render () {
@@ -89,6 +99,7 @@ class PhotoUpload extends Component {
         handleLike={this.handleLike}
         handleDelete={this.handleDelete}
         handleGetImages={this.handleGetImages}
+        handleSocketEmitRefreshImages={this.handleSocketEmitRefreshImages}
       />
     })
 
