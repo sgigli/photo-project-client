@@ -63,6 +63,7 @@ const ImageModal = (props) => {
       .then(res => {
         socket.emit('send-message', props.image._id)
         getImage()
+        props.handleSocketEmitRefreshImages()
       })
       .catch(console.error)
   }
