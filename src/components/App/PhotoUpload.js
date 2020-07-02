@@ -104,7 +104,7 @@ class PhotoUpload extends Component {
     })
 
     return (
-      <section className='background-image'>
+      <section>
         <Grid width={300} justify-items='center'>{images}</Grid>
       </section>
     )

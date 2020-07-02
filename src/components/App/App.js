@@ -9,7 +9,7 @@ import SignIn from '../SignIn/SignIn'
 import SignOut from '../SignOut/SignOut'
 import ChangePassword from '../ChangePassword/ChangePassword'
 import PhotoUpload from './PhotoUpload'
-import WelcomeImages from './WelcomeImages'
+// import WelcomeImages from './WelcomeImages'
 
 class App extends Component {
   constructor () {
@@ -46,7 +46,7 @@ class App extends Component {
             message={msgAlert.message}
           />
         ))}
-        <main>
+        <main className="background-image">
           <Route path='/sign-up' render={() => (
             <SignUp msgAlert={this.msgAlert} setUser={this.setUser} />
           )} />
@@ -54,7 +54,8 @@ class App extends Component {
             <SignIn msgAlert={this.msgAlert} setUser={this.setUser} />
           )} />
           <Route exact path='/' render={() => (
-            <WelcomeImages />
+            // <WelcomeImages user={user}/>
+            null
           )} />
           <AuthenticatedRoute user={user} path='/sign-out' render={() => (
             <SignOut msgAlert={this.msgAlert} clearUser={this.clearUser} user={user} />

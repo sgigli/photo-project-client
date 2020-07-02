@@ -1,11 +1,32 @@
 @import '~bootstrap/scss/bootstrap';
 
 main {
-  margin: 40px 30px 0px 30px;
+  // margin: 40px 30px 0px 30px;
+  padding-top: 30px;
+  background-color: #f9f9f9;
+  width: 100vw;
+  height: 100vh;
+}
+
+.welcome-images {
+  background-color: gray;
+  height: 200px;
+}
+
+.welcome-image {
+  max-height: .33 * (85vh);
+  margin: 0 auto;
 }
 
 .background-image {
-  background-image: url('https://cdn.jemediacorp.com/tracyjongblog/uploads/2017/07/delicious-1853300_960_720-960x500.jpg')
+  background-image: url('https://www.reviewgeek.com/thumbcache/0/0/689deb92e4a3df8dc63e2963d5af3ab4/p/uploads/2020/03/bbbfce32.png');
+  /* Full height */
+  height: 100vh;
+
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .demo {
