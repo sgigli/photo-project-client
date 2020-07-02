@@ -1,32 +1,15 @@
 @import '~bootstrap/scss/bootstrap';
 
 main {
-  // margin: 40px 30px 0px 30px;
-  padding-top: 30px;
+  padding: 40px 30px 0px 30px;
+}
+
+.background-shade {
   background-color: #f9f9f9;
-  width: 100vw;
-  height: 100vh;
 }
 
-.welcome-images {
-  background-color: gray;
-  height: 200px;
-}
-
-.welcome-image {
-  max-height: .33 * (85vh);
-  margin: 0 auto;
-}
-
-.background-image {
-  background-image: url('https://www.reviewgeek.com/thumbcache/0/0/689deb92e4a3df8dc63e2963d5af3ab4/p/uploads/2020/03/bbbfce32.png');
-  /* Full height */
-  height: 100vh;
-
-  /* Center and scale the image nicely */
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
+.welcome-page {
+  padding: 0 50px;
 }
 
 .demo {
@@ -114,6 +97,16 @@ main {
 
 .choose {
   margin-left: 70px;
+  background-color: #f2f2f2;
+}
+
+.upload {
+  background-color: #f2f2f2;
+  margin-left: 5px;
+}
+
+.upload-btns:hover {
+  background-color: #d9d9d9;
 }
 
 .comments {
@@ -198,9 +191,8 @@ main {
   color: #00802b;
 }
 
-.test {
-  display: inline-block;
-  margin-left: 50px;
+.FaCameraRetro {
+  margin-left: 15px;
 }
 
 // CHAT CSS
