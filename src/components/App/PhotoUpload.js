@@ -104,9 +104,9 @@ class PhotoUpload extends Component {
     })
 
     return (
-      <main>
+      <section>
         <Grid width={300} justify-items='center'>{images}</Grid>
-      </main>
+      </section>
     )
   }
 }

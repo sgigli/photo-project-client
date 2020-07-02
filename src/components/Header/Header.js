@@ -1,8 +1,11 @@
 import React, { Fragment, useRef, useState } from 'react'
 import Nav from 'react-bootstrap/Nav'
 import Navbar from 'react-bootstrap/Navbar'
+import NavDropdown from 'react-bootstrap/NavDropdown'
 import { signIn } from '../../api/auth'
 import messages from '../AutoDismissAlert/messages'
+import { FaCameraRetro } from 'react-icons/fa'
+import { FiSettings } from 'react-icons/fi'
 
 const Header = ({ user, setFile, setUser, msgAlert, history }) => {
   const fileInput = useRef(null)
@@ -50,8 +53,10 @@ const Header = ({ user, setFile, setUser, msgAlert, history }) => {
   const authenticatedOptions = (
     <Fragment>
       <Nav.Link href="#/">Home</Nav.Link>
-      <Nav.Link href="#change-password">Change Password</Nav.Link>
-      <Nav.Link href="#sign-out">Sign Out</Nav.Link>
+      <NavDropdown alignRight title={<FiSettings size={20}/>}>
+        <NavDropdown.Item href="#change-password">Change Password</NavDropdown.Item>
+        <NavDropdown.Item href="#sign-out">Sign Out</NavDropdown.Item>
+      </NavDropdown>
     </Fragment>
   )
 
@@ -64,14 +69,15 @@ const Header = ({ user, setFile, setUser, msgAlert, history }) => {
   )
 
   return (
-    <Navbar bg="primary" variant="dark" expand="md">
+    <Navbar style={{ backgroundColor: '#f2f2f2' }} variant="light" expand="md">
       <Navbar.Brand href="#">
         Photopia
+        <FaCameraRetro className='FaCameraRetro' size={30}/>
         { user &&
           <span>
             <input ref={fileInput} type="file" id="myfile" name="myfile" style={{ display: 'none' }} onChange={handleFile} />
-            <button className='btn btn-primary choose' onClick={triggerFileHandler}>Choose photo</button>
-            <button className='btn btn-primary' onClick={sendFile} disabled={ image ? '' : 'disabled' }>Upload</button>
+            <button className='btn upload-btns choose' onClick={triggerFileHandler}>Choose photo</button>
+            <button className={ image ? 'btn upload upload-btns' : 'btn upload' } onClick={sendFile} disabled={ image ? '' : 'disabled' }>Upload</button>
           </span>
         }
       </Navbar.Brand>

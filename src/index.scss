@@ -1,7 +1,15 @@
 @import '~bootstrap/scss/bootstrap';
 
 main {
-  margin: 40px 30px 0px 30px;
+  padding: 40px 30px 0px 30px;
+}
+
+.background-shade {
+  background-color: #f9f9f9;
+}
+
+.welcome-page {
+  padding: 0 50px;
 }
 
 .demo {
@@ -89,6 +97,16 @@ main {
 
 .choose {
   margin-left: 70px;
+  background-color: #f2f2f2;
+}
+
+.upload {
+  background-color: #f2f2f2;
+  margin-left: 5px;
+}
+
+.upload-btns:hover {
+  background-color: #d9d9d9;
 }
 
 .comments {
@@ -173,9 +191,8 @@ main {
   color: #00802b;
 }
 
-.test {
-  display: inline-block;
-  margin-left: 50px;
+.FaCameraRetro {
+  margin-left: 15px;
 }
 
 // CHAT CSS
